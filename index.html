@@ -1,0 +1,3220 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="artifact-type" content="dashboard">
+  <meta name="design-style" content="sticker">
+  <title>Інформатика 5 клас — Інтерактивний путівник за підручником І. В. Тріщук</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400..900&family=Nunito:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/lucide@1.43.0/dist/umd/lucide.min.js"></script>
+  <style>
+    :root {
+      color-scheme: light;
+
+      /* Page and surfaces (Sticker style) */
+      --background: #fef7ff;
+      --surface-container-low: #ffffff;
+      --surface-container: #f8eef8;
+      --surface-container-high: #f2e8f2;
+
+      /* Ink */
+      --on-surface: #2e1a28;
+      --on-surface-variant: #604868;
+
+      /* Rules */
+      --outline: #907898;
+      --outline-variant: #dcc8e0;
+
+      /* Accents */
+      --primary: #c2207f;
+      --on-primary: #ffffff;
+      --primary-container: #f080c0;
+      --on-primary-container: #2e1a28;
+      --secondary: #7c52aa;
+      --on-secondary: #ffffff;
+      --secondary-container: #ebe0f7;
+      --tertiary: #0096cc;
+      --tertiary-container: #d8f3fc;
+      --error: #c53030;
+      --on-error: #ffffff;
+      --error-container: #fde8e8;
+
+      /* Semantic */
+      --positive: #15803d;
+      --positive-container: #dcfce7;
+      --warning: #b45309;
+      --warning-container: #fef3c7;
+
+      /* Focus */
+      --focus: #c2207f;
+
+      /* Data series */
+      --data-1: #c2207f;
+      --data-2: #7c52aa;
+      --data-3: #0096cc;
+      --data-4: #d96a00;
+      --data-context: #c8b8d0;
+
+      /* Scratch & diagram tokens */
+      --scratch-events: #d97706;
+      --scratch-motion: #2563eb;
+      --scratch-looks: #7c3aed;
+      --scratch-control: #c2410c;
+      --scratch-sensing: #0284c7;
+      --scratch-pen: #0f766e;
+
+      /* Fonts (Nunito first for crisp Ukrainian Cyrillic + DM Sans fallback) */
+      --font-headline: 'Nunito', 'DM Sans', sans-serif;
+      --font-body: 'Nunito', 'DM Sans', sans-serif;
+      --font-label: 'Nunito', 'DM Sans', sans-serif;
+
+      /* Dashboard type scale */
+      --display-size: clamp(1.85rem, 1.35rem + 1.8vw, 2.65rem);
+      --headline-size: clamp(1.25rem, 1.08rem + 0.65vw, 1.65rem);
+      --subhead-size: clamp(1.0625rem, 1rem + 0.25vw, 1.25rem);
+      --body-size: clamp(0.95rem, 0.92rem + 0.18vw, 1.05rem);
+      --label-size: 0.78rem;
+
+      /* Shape */
+      --rounded: 1rem;
+      --rounded-lg: 2rem;
+      --rounded-full: 9999px;
+
+      /* Spacing scale */
+      --space-xs: 0.25rem;
+      --space-sm: 0.5rem;
+      --space-md: 1rem;
+      --space-lg: 1.5rem;
+      --space-xl: 2.5rem;
+      --space-2xl: 4rem;
+
+      /* Style effects (tinted colorful shadows) */
+      --shadow-pink: 0 4px 16px rgb(224 64 160 / 0.2);
+      --shadow-pink-deep: 0 10px 28px rgb(224 64 160 / 0.32);
+      --shadow-grape: 0 4px 16px rgb(124 82 170 / 0.2);
+      --shadow-grape-deep: 0 10px 28px rgb(124 82 170 / 0.3);
+      --shadow-sky: 0 4px 16px rgb(0 150 204 / 0.2);
+      --pop-scale: scale(1.03);
+      --lift: translateY(-4px);
+      --ease-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
+      --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+      --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+      --dur-micro: 120ms;
+      --dur-short: 220ms;
+      --dur-long: 420ms;
+    }
+
+    /* Base reset */
+    *, *::before, *::after { box-sizing: border-box; }
+    html, body {
+      overflow-x: clip;
+      margin: 0;
+      padding: 0;
+      background-color: var(--background);
+      color: var(--on-surface);
+      font-family: var(--font-body);
+      font-size: var(--body-size);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+    header { position: static !important; }
+
+    button, input, select, textarea {
+      font-family: inherit;
+      font-size: inherit;
+      color: inherit;
+    }
+
+    :focus-visible {
+      outline: 3px solid var(--focus);
+      outline-offset: 2px;
+    }
+
+    .page-grid {
+      display: grid;
+      gap: var(--space-lg);
+      padding: var(--space-lg);
+      max-width: 1220px;
+      margin: 0 auto;
+      overflow: hidden;
+    }
+    .page-grid * { min-width: 0; }
+
+    /* Hero panel */
+    .hero-panel {
+      background: var(--surface-container-low);
+      border-radius: var(--rounded-lg);
+      box-shadow: var(--shadow-pink);
+      padding: var(--space-xl);
+      display: grid;
+      gap: var(--space-lg);
+    }
+
+    .hero-top {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: var(--space-md);
+    }
+
+    .kicker-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-xs);
+      background: var(--primary-container);
+      color: var(--on-primary-container);
+      font-family: var(--font-label);
+      font-weight: 700;
+      font-size: var(--label-size);
+      padding: var(--space-xs) var(--space-md);
+      border-radius: var(--rounded-full);
+      letter-spacing: 0;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-sm);
+      align-items: center;
+    }
+
+    .display {
+      font-family: var(--font-headline);
+      font-weight: 900;
+      font-size: var(--display-size);
+      letter-spacing: -0.02em;
+      line-height: 1.1;
+      margin: var(--space-sm) 0;
+      color: var(--on-surface);
+    }
+    .display em {
+      font-style: normal;
+      color: var(--primary);
+    }
+
+    .hero-lede {
+      max-width: 65ch;
+      margin: 0;
+      color: var(--on-surface-variant);
+      font-size: var(--subhead-size);
+      line-height: 1.5;
+    }
+
+    /* Buttons */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: var(--space-sm);
+      min-height: 44px;
+      padding: var(--space-sm) var(--space-lg);
+      border-radius: var(--rounded-full);
+      border: 0;
+      cursor: pointer;
+      font-weight: 700;
+      font-size: var(--body-size);
+      text-decoration: none;
+      transition: transform var(--dur-short) var(--ease-bounce),
+                  box-shadow var(--dur-short) var(--ease-out),
+                  background-color var(--dur-micro) var(--ease-in-out);
+    }
+    .btn:hover { transform: var(--pop-scale); }
+    .btn:active { transform: scale(0.97); }
+    .btn:disabled {
+      opacity: 0.55;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .btn-primary {
+      background: var(--primary);
+      color: var(--on-primary);
+      box-shadow: var(--shadow-pink);
+    }
+    .btn-primary:hover { box-shadow: var(--shadow-pink-deep); }
+
+    .btn-secondary {
+      background: var(--secondary);
+      color: var(--on-secondary);
+      box-shadow: var(--shadow-grape);
+    }
+    .btn-secondary:hover { box-shadow: var(--shadow-grape-deep); }
+
+    .btn-soft {
+      background: var(--surface-container);
+      color: var(--on-surface);
+      box-shadow: none;
+    }
+    .btn-soft:hover { background: var(--surface-container-high); }
+
+    .btn-quiet {
+      background: transparent;
+      color: var(--primary);
+      padding: var(--space-sm) var(--space-md);
+    }
+    .btn-quiet:hover { background: var(--surface-container); }
+
+    .btn-sm {
+      min-height: 38px;
+      padding: var(--space-xs) var(--space-md);
+      font-size: 0.9rem;
+    }
+
+    /* Metric cards */
+    .metrics-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(200px, 100%), 1fr));
+      gap: var(--space-md);
+    }
+
+    .metric-card {
+      background: var(--surface-container);
+      border-radius: var(--rounded);
+      padding: var(--space-md) var(--space-lg);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-xs);
+    }
+    .metric-card.pink { box-shadow: var(--shadow-pink); background: var(--surface-container-low); }
+    .metric-card.sky { box-shadow: var(--shadow-sky); background: var(--surface-container-low); }
+    .metric-card.grape { box-shadow: var(--shadow-grape); background: var(--surface-container-low); }
+
+    .metric-label {
+      font-family: var(--font-label);
+      font-size: var(--label-size);
+      font-weight: 700;
+      color: var(--on-surface-variant);
+    }
+    .metric-value {
+      font-family: var(--font-headline);
+      font-size: clamp(1.5rem, 1.2rem + 1vw, 2rem);
+      font-weight: 900;
+      font-variant-numeric: tabular-nums;
+      line-height: 1.1;
+      color: var(--on-surface);
+    }
+    .metric-value.accent { color: var(--primary); }
+    .metric-sub {
+      font-size: 0.85rem;
+      color: var(--on-surface-variant);
+    }
+
+    .progress-track {
+      width: 100%;
+      height: 10px;
+      background: var(--surface-container-high);
+      border-radius: var(--rounded-full);
+      overflow: hidden;
+      margin-top: var(--space-xs);
+    }
+    .progress-fill {
+      height: 100%;
+      background: var(--tertiary);
+      border-radius: var(--rounded-full);
+      transition: width var(--dur-long) var(--ease-out);
+      width: 0%;
+    }
+
+    /* Search & Filter bar */
+    .search-toolbar {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: var(--space-md);
+      align-items: end;
+    }
+
+    .field-group {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-xs);
+    }
+    .field-label {
+      font-family: var(--font-label);
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--on-surface);
+      padding-left: var(--space-sm);
+    }
+
+    .input-pill, .select-pill {
+      min-height: 44px;
+      padding: var(--space-sm) var(--space-lg);
+      border-radius: var(--rounded-full);
+      border: 2px solid var(--outline);
+      background: var(--surface-container);
+      color: var(--on-surface);
+      width: 100%;
+      transition: border-color var(--dur-micro) var(--ease-in-out),
+                  background-color var(--dur-micro) var(--ease-in-out);
+    }
+    .select-pill {
+      padding-right: var(--space-xl);
+    }
+    .input-pill:focus, .select-pill:focus {
+      border-color: var(--primary);
+      background: var(--surface-container-low);
+      outline: none;
+      box-shadow: 0 0 0 3px var(--primary-container);
+    }
+
+    /* Chapter Tabs Navigation */
+    .chapter-nav-wrap {
+      display: grid;
+      gap: var(--space-sm);
+    }
+    .chapter-nav-label {
+      font-size: var(--label-size);
+      font-weight: 700;
+      color: var(--on-surface-variant);
+    }
+    .chapter-tabs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-sm);
+    }
+
+    .chapter-tab {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-sm);
+      min-height: 44px;
+      padding: var(--space-sm) var(--space-md);
+      border-radius: var(--rounded-full);
+      border: 2px solid var(--outline-variant);
+      background: var(--surface-container-low);
+      color: var(--on-surface);
+      font-weight: 700;
+      font-size: 0.92rem;
+      cursor: pointer;
+      transition: transform var(--dur-short) var(--ease-bounce),
+                  background-color var(--dur-micro) var(--ease-in-out),
+                  box-shadow var(--dur-short) var(--ease-out),
+                  border-color var(--dur-micro) var(--ease-in-out);
+    }
+    .chapter-tab:hover {
+      transform: var(--pop-scale);
+      border-color: var(--secondary);
+    }
+    .chapter-tab.active {
+      background: var(--primary);
+      color: var(--on-primary);
+      border-color: var(--primary);
+      box-shadow: var(--shadow-pink);
+    }
+    .chapter-tab .tab-count {
+      font-size: 0.78rem;
+      padding: 2px 8px;
+      border-radius: var(--rounded-full);
+      background: var(--surface-container-high);
+      color: var(--on-surface);
+      font-variant-numeric: tabular-nums;
+    }
+    .chapter-tab.active .tab-count {
+      background: var(--surface-container-low);
+      color: var(--primary);
+    }
+
+    /* Active Chapter Banner */
+    .chapter-banner {
+      background: var(--surface-container-low);
+      border-radius: var(--rounded-lg);
+      box-shadow: var(--shadow-grape);
+      padding: var(--space-lg) var(--space-xl);
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: var(--space-lg);
+      align-items: center;
+    }
+    .chapter-banner h2 {
+      font-family: var(--font-headline);
+      font-weight: 900;
+      font-size: var(--headline-size);
+      line-height: 1.15;
+      margin: var(--space-xs) 0;
+    }
+    .chapter-banner p {
+      margin: 0;
+      max-width: 65ch;
+      color: var(--on-surface-variant);
+    }
+    .chapter-controls {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-sm);
+      align-items: center;
+    }
+
+    /* Segmented toggle (Theory vs Interactive Practice) */
+    .segmented {
+      display: inline-flex;
+      background: var(--surface-container-high);
+      padding: 4px;
+      border-radius: var(--rounded-full);
+      gap: 4px;
+    }
+    .seg-btn {
+      min-height: 40px;
+      padding: var(--space-xs) var(--space-md);
+      border: 0;
+      border-radius: var(--rounded-full);
+      background: transparent;
+      color: var(--on-surface-variant);
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-xs);
+      transition: background-color var(--dur-short) var(--ease-in-out),
+                  color var(--dur-short) var(--ease-in-out);
+    }
+    .seg-btn.active {
+      background: var(--surface-container-low);
+      color: var(--primary);
+      box-shadow: var(--shadow-pink);
+    }
+
+    /* Topic Jump Pills inside a Chapter */
+    .topic-pills-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-sm);
+      align-items: center;
+    }
+    .topic-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      min-height: 40px;
+      padding: 6px 14px;
+      border-radius: var(--rounded-full);
+      background: var(--surface-container-low);
+      border: 2px solid var(--outline-variant);
+      color: var(--on-surface);
+      font-weight: 700;
+      font-size: 0.88rem;
+      cursor: pointer;
+      transition: transform var(--dur-short) var(--ease-bounce),
+                  border-color var(--dur-micro) var(--ease-in-out);
+    }
+    .topic-pill:hover {
+      transform: var(--pop-scale);
+      border-color: var(--primary);
+    }
+    .topic-pill.done {
+      border-color: var(--positive);
+      background: var(--positive-container);
+      color: var(--positive);
+    }
+
+    /* Topics Grid */
+    .topics-stack {
+      display: grid;
+      gap: var(--space-lg);
+    }
+
+    .topic-card {
+      background: var(--surface-container-low);
+      border-radius: var(--rounded);
+      box-shadow: var(--shadow-pink);
+      padding: var(--space-lg) var(--space-xl);
+      display: grid;
+      gap: var(--space-md);
+      container-type: inline-size;
+    }
+    .topic-card:nth-child(3n+2) { box-shadow: var(--shadow-sky); }
+    .topic-card:nth-child(3n+3) { box-shadow: var(--shadow-grape); }
+
+    .topic-header {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: var(--space-md);
+    }
+    .topic-meta {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: var(--space-sm);
+    }
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 4px 12px;
+      border-radius: var(--rounded-full);
+      background: var(--primary-container);
+      color: var(--on-primary-container);
+      font-weight: 800;
+      font-size: 0.82rem;
+    }
+    .badge-grape {
+      background: var(--secondary-container);
+      color: var(--secondary);
+    }
+    .badge-sky {
+      background: var(--tertiary-container);
+      color: var(--on-surface);
+    }
+    .page-tag {
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: var(--on-surface-variant);
+    }
+
+    .topic-title {
+      font-family: var(--font-headline);
+      font-weight: 800;
+      font-size: var(--headline-size);
+      line-height: 1.25;
+      margin: var(--space-xs) 0 0 0;
+      color: var(--on-surface);
+    }
+
+    .done-btn {
+      min-height: 40px;
+      padding: 6px 14px;
+      border-radius: var(--rounded-full);
+      border: 2px solid var(--outline);
+      background: var(--surface-container);
+      color: var(--on-surface);
+      font-weight: 700;
+      font-size: 0.88rem;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: transform var(--dur-short) var(--ease-bounce),
+                  background-color var(--dur-micro) var(--ease-in-out);
+    }
+    .done-btn:hover { transform: var(--pop-scale); }
+    .done-btn.is-done {
+      background: var(--positive);
+      border-color: var(--positive);
+      color: var(--on-primary);
+    }
+
+    .topic-body {
+      display: grid;
+      grid-template-columns: minmax(0, 1.35fr) minmax(0, 0.85fr);
+      gap: var(--space-lg);
+      align-items: start;
+    }
+    @container (max-width: 720px) {
+      .topic-body { grid-template-columns: 1fr; }
+    }
+
+    .theory-prose {
+      max-width: 65ch;
+    }
+    .theory-prose p { margin: 0 0 var(--space-sm) 0; }
+    .theory-prose ul, .theory-prose ol {
+      margin: 0 0 var(--space-sm) 0;
+      padding-left: 1.35rem;
+    }
+    .theory-prose li { margin-bottom: 4px; }
+    .theory-prose code {
+      background: var(--surface-container);
+      color: var(--primary);
+      padding: 2px 7px;
+      border-radius: var(--rounded-full);
+      font-weight: 700;
+      font-size: 0.92em;
+    }
+
+    .terms-panel {
+      background: var(--surface-container);
+      border-radius: var(--rounded);
+      padding: var(--space-md);
+      display: grid;
+      gap: var(--space-sm);
+    }
+    .terms-heading {
+      font-weight: 800;
+      font-size: 0.92rem;
+      color: var(--secondary);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin: 0;
+    }
+    .term-list {
+      display: grid;
+      gap: var(--space-xs);
+    }
+    .term-item {
+      background: var(--surface-container-low);
+      border-radius: 0.75rem;
+      padding: var(--space-sm) var(--space-md);
+      font-size: 0.9rem;
+    }
+    .term-name {
+      font-weight: 800;
+      color: var(--primary);
+    }
+
+    .tip-box {
+      background: var(--tertiary-container);
+      color: var(--on-surface);
+      border-radius: var(--rounded);
+      padding: var(--space-sm) var(--space-md);
+      font-size: 0.92rem;
+      display: flex;
+      align-items: flex-start;
+      gap: var(--space-sm);
+    }
+    .tip-box strong { color: var(--secondary); }
+
+    /* Interactive Practice & Quiz Section */
+    .practice-grid {
+      display: grid;
+      gap: var(--space-lg);
+    }
+
+    .lab-card {
+      background: var(--surface-container-low);
+      border-radius: var(--rounded-lg);
+      box-shadow: var(--shadow-sky);
+      padding: var(--space-xl);
+      display: grid;
+      gap: var(--space-lg);
+    }
+    .lab-header {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: var(--space-md);
+    }
+    .lab-title {
+      font-family: var(--font-headline);
+      font-weight: 900;
+      font-size: var(--headline-size);
+      margin: 0;
+    }
+    .lab-title em { font-style: normal; color: var(--primary); }
+
+    .quiz-card {
+      background: var(--surface-container-low);
+      border-radius: var(--rounded-lg);
+      box-shadow: var(--shadow-grape);
+      padding: var(--space-xl);
+      display: grid;
+      gap: var(--space-lg);
+    }
+
+    .quiz-question-box {
+      background: var(--surface-container);
+      border-radius: var(--rounded);
+      padding: var(--space-lg);
+      display: grid;
+      gap: var(--space-md);
+    }
+    .quiz-q-title {
+      font-weight: 800;
+      font-size: 1.05rem;
+      margin: 0;
+    }
+    .quiz-options {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(220px, 100%), 1fr));
+      gap: var(--space-sm);
+    }
+    .quiz-opt {
+      min-height: 44px;
+      padding: var(--space-sm) var(--space-md);
+      border-radius: var(--rounded-full);
+      border: 2px solid var(--outline-variant);
+      background: var(--surface-container-low);
+      text-align: left;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: var(--space-sm);
+      transition: transform var(--dur-short) var(--ease-bounce),
+                  border-color var(--dur-micro) var(--ease-in-out),
+                  background-color var(--dur-micro) var(--ease-in-out);
+    }
+    .quiz-opt:hover:not(:disabled) {
+      transform: var(--pop-scale);
+      border-color: var(--primary);
+    }
+    .quiz-opt.correct {
+      background: var(--positive-container);
+      border-color: var(--positive);
+      color: var(--positive);
+    }
+    .quiz-opt.wrong {
+      background: var(--error-container);
+      border-color: var(--error);
+      color: var(--error);
+    }
+    .quiz-feedback {
+      font-size: 0.92rem;
+      font-weight: 700;
+      padding: var(--space-sm) var(--space-md);
+      border-radius: var(--rounded);
+      background: var(--surface-container-low);
+    }
+    .quiz-feedback.ok { color: var(--positive); }
+    .quiz-feedback.bad { color: var(--error); }
+
+    /* Interactive Lab Widgets */
+    .lab-split {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(290px, 100%), 1fr));
+      gap: var(--space-lg);
+      align-items: start;
+    }
+    .lab-well {
+      background: var(--surface-container);
+      border-radius: var(--rounded);
+      padding: var(--space-lg);
+      display: grid;
+      gap: var(--space-md);
+    }
+
+    .chip-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-sm);
+    }
+    .chip {
+      min-height: 40px;
+      padding: 6px 14px;
+      border-radius: var(--rounded-full);
+      border: 2px solid var(--outline-variant);
+      background: var(--surface-container-low);
+      font-weight: 700;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: transform var(--dur-short) var(--ease-bounce),
+                  background-color var(--dur-micro) var(--ease-in-out);
+    }
+    .chip:hover { transform: var(--pop-scale); }
+    .chip.selected {
+      background: var(--secondary);
+      border-color: var(--secondary);
+      color: var(--on-secondary);
+    }
+
+    .status-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 12px;
+      border-radius: var(--rounded-full);
+      font-weight: 800;
+      font-size: 0.85rem;
+    }
+    .status-ok { background: var(--positive-container); color: var(--positive); }
+    .status-warn { background: var(--warning-container); color: var(--warning); }
+    .status-bad { background: var(--error-container); color: var(--error); }
+
+    /* Scratch stage & blocks */
+    .scratch-stage {
+      background: var(--surface-container-low);
+      border: 2px solid var(--outline-variant);
+      border-radius: var(--rounded);
+      min-height: 240px;
+      display: grid;
+      place-items: center;
+      overflow: hidden;
+      position: relative;
+    }
+    .scratch-block-btn {
+      min-height: 40px;
+      padding: 6px 14px;
+      border-radius: var(--rounded-full);
+      border: 0;
+      color: var(--on-primary);
+      font-weight: 800;
+      font-size: 0.86rem;
+      cursor: pointer;
+      transition: transform var(--dur-short) var(--ease-bounce);
+    }
+    .scratch-block-btn:hover { transform: var(--pop-scale); }
+    .blk-motion { background: var(--scratch-motion); }
+    .blk-looks { background: var(--scratch-looks); }
+    .blk-control { background: var(--scratch-control); }
+    .blk-events { background: var(--scratch-events); }
+    .blk-pen { background: var(--scratch-pen); }
+
+    .script-queue {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      min-height: 46px;
+      padding: var(--space-sm);
+      background: var(--surface-container-low);
+      border-radius: var(--rounded);
+      align-items: center;
+    }
+
+    /* Tables in theory/labs */
+    .nice-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.9rem;
+      border-radius: var(--rounded);
+      overflow: hidden;
+    }
+    .nice-table th {
+      background: var(--surface-container);
+      text-align: left;
+      padding: var(--space-sm) var(--space-md);
+      font-weight: 800;
+      color: var(--on-surface);
+    }
+    .nice-table td {
+      padding: var(--space-sm) var(--space-md);
+      background: var(--surface-container-low);
+    }
+    .nice-table tr:nth-child(even) td {
+      background: var(--surface-container);
+    }
+
+    /* Footer */
+    .site-footer {
+      text-align: left;
+      padding: var(--space-lg) var(--space-xl);
+      background: var(--surface-container-low);
+      border-radius: var(--rounded-lg);
+      box-shadow: var(--shadow-pink);
+      color: var(--on-surface-variant);
+      font-size: 0.9rem;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: var(--space-md);
+    }
+
+    .empty-state {
+      background: var(--surface-container-low);
+      border-radius: var(--rounded-lg);
+      padding: var(--space-2xl) var(--space-xl);
+      text-align: left;
+      box-shadow: var(--shadow-grape);
+      display: grid;
+      gap: var(--space-md);
+      justify-items: start;
+    }
+
+    .inline-msg {
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: var(--secondary);
+    }
+
+    /* Mobile breakpoint */
+    @media (max-width: 640px) {
+      .page-grid { padding: var(--space-sm); gap: var(--space-md); }
+      .hero-panel, .chapter-banner, .topic-card, .lab-card, .quiz-card {
+        padding: var(--space-md);
+        border-radius: var(--rounded);
+      }
+      .search-toolbar, .chapter-banner {
+        grid-template-columns: 1fr;
+      }
+      .topic-body { grid-template-columns: 1fr; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="page-grid">
+    <!-- Hero & Progress Dashboard -->
+    <section class="hero-panel" aria-label="Загальний огляд курсу">
+      <div class="hero-top">
+        <span class="kicker-pill">
+          <i data-lucide="book-open" aria-hidden="true" style="width:16px;height:16px;"></i>
+          Навчальний путівник · 5 клас · за підручником І. В. Тріщук
+        </span>
+        <div class="hero-actions">
+          <button type="button" class="btn btn-soft btn-sm" onclick="exportProgress()">
+            <i data-lucide="download" aria-hidden="true" style="width:16px;height:16px;"></i>
+            Зберегти конспект прогресу
+          </button>
+          <button type="button" class="btn btn-quiet btn-sm" id="reset-progress-btn" onclick="resetProgress(this)">
+            <i data-lucide="rotate-ccw" aria-hidden="true" style="width:16px;height:16px;"></i>
+            Скинути прогрес
+          </button>
+        </div>
+      </div>
+
+      <div>
+        <h1 class="display">Твій інтерактивний путівник з <em>інформатики</em></h1>
+        <p class="hero-lede">
+          Усі 6 розділів та 34 теми курсу 5 класу в одному місці: зрозумілі конспекти теорії, ключові поняття, живі симулятори та тести для самоперевірки.
+        </p>
+      </div>
+
+      <div class="metrics-grid">
+        <div class="metric-card pink">
+          <span class="metric-label">Програма курсу</span>
+          <span class="metric-value">6 розділів · 34 теми</span>
+          <span class="metric-sub">Від цифрового світу до ШІ</span>
+        </div>
+
+        <div class="metric-card sky">
+          <span class="metric-label">Вивчені теми</span>
+          <span class="metric-value accent" id="metric-topics-val">0 / 34</span>
+          <div class="progress-track" aria-hidden="true">
+            <div class="progress-fill" id="metric-topics-bar"></div>
+          </div>
+        </div>
+
+        <div class="metric-card grape">
+          <span class="metric-label">Результат тестів</span>
+          <span class="metric-value" id="metric-quiz-val">0 / 30</span>
+          <div class="progress-track" aria-hidden="true">
+            <div class="progress-fill" id="metric-quiz-bar"></div>
+          </div>
+        </div>
+
+        <div class="metric-card pink">
+          <span class="metric-label">Статус навчання</span>
+          <span class="metric-value" id="metric-rank-val">Старт</span>
+          <span class="metric-sub" id="metric-rank-sub">Обери розділ і почни вивчення</span>
+        </div>
+      </div>
+
+      <!-- Search & Filter -->
+      <div class="search-toolbar">
+        <div class="field-group">
+          <label class="field-label" for="global-search">Пошук за всіма 34 темами та ключовими поняттями (наприклад: байт, Scratch, фішинг, промт)</label>
+          <input
+            type="search"
+            id="global-search"
+            class="input-pill"
+            placeholder="Введіть слово для пошуку…"
+            oninput="handleSearchInput(this.value)"
+          >
+        </div>
+        <button type="button" class="btn btn-soft" id="clear-search-btn" onclick="clearSearch()" style="display:none;">
+          Очистити пошук
+        </button>
+      </div>
+      <div id="search-status-msg" class="inline-msg" aria-live="polite"></div>
+    </section>
+
+    <!-- Chapter Navigation Pills -->
+    <nav class="chapter-nav-wrap" aria-label="Навігація за розділами підручника">
+      <span class="chapter-nav-label">Оберіть розділ підручника для перегляду конспекту та вправ:</span>
+      <div class="chapter-tabs" id="chapter-tabs"></div>
+    </nav>
+
+    <!-- Active Chapter or Search Results View -->
+    <section id="main-workspace" aria-live="polite"></section>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+      <div>
+        <strong>Інформатика, 5 клас</strong> — інтерактивний сайт-путівник, укладений за матеріалами підручника І. В. Тріщук (Тернопіль: Навчальна книга — Богдан, 2026).
+      </div>
+      <div id="save-indicator">Прогрес зберігається автоматично</div>
+    </footer>
+  </main>
+
+  <api-shim></api-shim>
+  <script>
+    // =========================================================================
+    // DATA: All 6 Chapters, 34 Topics, Key Terms, and 30 Quiz Questions
+    // =========================================================================
+    const CHAPTERS = [
+      {
+        id: 1,
+        shortTitle: `1. Цифрове середовище`,
+        title: `Розділ 1. Власне цифрове середовище`,
+        range: `Теми 1–3`,
+        icon: `laptop`,
+        description: `Дізнайся, як влаштована інформаційна система, з чого складається комп'ютер, як вимірюють інформацію та як працювати з файлами й папками в операційній системі.`,
+        topics: [
+          {
+            num: 1,
+            title: `Інформаційні технології, їх роль у житті сучасної людини. Поняття про інформаційні процеси`,
+            pages: `с. 4–14`,
+            summary: `<p>У сучасному світі інформаційні технології супроводжують нас щодня: під час дистанційного навчання, фото- та відеозйомки, спілкування чи пошуку новин. У центрі цього стоїть <strong>інформаційна система</strong> — поєднання пристроїв (апаратної складової <em>Hardware</em>), програм (програмної складової <em>Software</em>) і людей, які працюють із даними.</p>
+            <ul>
+              <li><strong>Інформаційні процеси:</strong> пошук, отримання, зберігання, опрацювання, передавання, захист і знищення інформації.</li>
+              <li><strong>Властивості інформації:</strong> актуальність (потрібна зараз), достовірність (правдива), повнота (достатня для рішення), зрозумілість.</li>
+              <li><strong>Класифікація:</strong> за способом отримання — <em>візуальна, аудіальна, тактильна, смакова, нюхова</em>; за способом подання — <em>текстова, графічна, звукова, відеодані, числова, комбінована, умовні жести</em>.</li>
+              <li><strong>Види ПЗ:</strong> <em>системне</em> (Windows, macOS, Android, Linux, утиліти), <em>прикладне</em> (браузери, редактори, Canva, ігри) та <em>інструментальне</em> (Python, Scratch, Visual Studio Code).</li>
+              <li><strong>Одиниці вимірювання інформації:</strong> <code>1 біт = 0 або 1</code>, <code>1 байт = 8 біт</code>, <code>1 КБ = 1024 байт</code>, <code>1 МБ = 1024 КБ</code>, <code>1 ГБ = 1024 МБ</code>, <code>1 ТБ = 1024 ГБ</code>.</li>
+              <li><strong>Носії інформації:</strong> магнітні накопичувачі, оптичні диски (CD, DVD, Blu-ray), SSD-диски та компактні флешнакопичувачі (USB).</li>
+            </ul>`,
+            terms: [
+              { term: `Інформаційна система`, def: `Поєднання пристроїв, програм і людей для збирання, зберігання, опрацювання та передавання даних.` },
+              { term: `Hardware і Software`, def: `Апаратна складова (технічні пристрої) та програмне забезпечення (усі комп'ютерні програми).` },
+              { term: `Дані`, def: `Інформація у вигляді, зручному для комп'ютера: числа, текст, фото, звук.` },
+              { term: `Систематизація`, def: `Структурування даних у такому порядку, який полегшує пошук потрібної інформації.` }
+            ],
+            tip: `Український ІТ-стартап Grammarly у 2009 році заснували українці Олексій Шевченко, Максим Литвин і Дмитро Лідер — сьогодні цей сервіс на основі ШІ допомагає мільйонам людей писати англійською без помилок.`
+          },
+          {
+            num: 2,
+            title: `Комп'ютери та їх різновиди. Складові комп'ютерів, їх призначення`,
+            pages: `с. 15–22`,
+            summary: `<p><strong>Комп'ютер</strong> (від англ. <em>computer</em> — «обчислювач») — це програмно-керований пристрій для обробки інформації. За призначенням їх поділяють на суперкомп'ютери, персональні комп'ютери (ПК) та мікрокомп'ютери.</p>
+            <ul>
+              <li><strong>4 групи ПК:</strong> <em>стаціонарні</em> (настільний ПК, моноблок, неттоп), <em>мобільні</em> (ноутбук, планшет, смартфон), <em>сервери й хмара</em> (Google Drive, Dropbox, OneDrive) та <em>вбудовані пристрої</em> (розумний годинник, колонка, дрон, побутова техніка).</li>
+              <li><strong>Всередині системного блоку:</strong> <strong>процесор (CPU)</strong> — «мозок» комп'ютера; <strong>оперативна пам'ять (RAM)</strong> — швидка короткочасна пам'ять; <strong>накопичувач (SSD)</strong> — довготривале зберігання файлів; <strong>відеокарта (GPU)</strong> — графіка й 3D; материнська плата, блок живлення (або батарея), система охолодження, контролери Wi-Fi, Bluetooth і звуку.</li>
+              <li><strong>Порти підключення:</strong> <code>USB-A</code>, швидкий двосторонній <code>USB-C</code>, відеовиходи <code>HDMI</code> та <code>DisplayPort</code>, аудіороз'єми, дротовий інтернет <code>Ethernet (RJ-45)</code>.</li>
+            </ul>`,
+            terms: [
+              { term: `Процесор (CPU)`, def: `Головний компонент, який виконує команди програм, обробляє дані та керує роботою пристроїв.` },
+              { term: `Оперативна пам'ять (RAM)`, def: `Короткочасна пам'ять для даних, з якими комп'ютер працює прямо зараз.` },
+              { term: `SSD-накопичувач`, def: `Швидкий і безшумний носій для довготривалого збереження файлів, фото та програм.` },
+              { term: `Пристрої введення/виведення`, def: `Введення: клавіатура, миша, мікрофон. Виведення: монітор, принтер, навушники.` }
+            ],
+            tip: `Смартфон для навчання: додаток Google Об'єктив (Google Lens) вміє зчитувати текст із підручника чи дошки через камеру, щоб ти міг скопіювати його в нотатки!`
+          },
+          {
+            num: 3,
+            title: `Загальне поняття про операційну систему та її інтерфейс. Об'єкти файлової системи, операції над ними`,
+            pages: `с. 23–35`,
+            summary: `<p><strong>Операційна система (ОС)</strong> забезпечує взаємодію між апаратною частиною комп'ютера, прикладними програмами та користувачем. Найпопулярніші ОС — Windows, macOS, Linux, Android, iOS.</p>
+            <ul>
+              <li><strong>Структура ОС:</strong> <em>Ядро</em> (перекладає команди на мову процесора), <em>Драйвери</em> (керують пристроями), <em>Утиліти</em> (обслуговують систему), <em>Інтерфейс</em> (оболонка з вікон, значків і меню).</li>
+              <li><strong>Елементи інтерфейсу:</strong> Робочий стіл, Панель задач (у macOS — <em>Dock</em>), меню «Пуск», Ярлики (посилання на програму), Поле пошуку, Перегляд завдань (<code>Win + Tab</code>) для віртуальних столів.</li>
+              <li><strong>Файлова система:</strong> організовує дані у вигляді <em>файлів</em> та <em>папок</em>. Ім'я файлу складається з назви та розширення після крапки (наприклад, <code>Проєкт.docx</code>, <code>Фото.jpg</code>, <code>Таблиця.xlsx</code>).</li>
+              <li><strong>Операції та гарячі клавіші:</strong> копіювання <code>Ctrl + C</code>, вирізування (переміщення) <code>Ctrl + X</code>, вставлення <code>Ctrl + V</code>, закриття вікна <code>Alt + F4</code>, виклик контекстного меню — права кнопка миші.</li>
+            </ul>`,
+            terms: [
+              { term: `Файл`, def: `Впорядкована сукупність даних на носії, яка має ім'я та розширення (тип).` },
+              { term: `Папка`, def: `Елемент файлової системи для групування файлів та інших папок в ієрархічну структуру.` },
+              { term: `Ярлик`, def: `Значок-посилання для швидкого запуску програми або відкриття об'єкта.` },
+              { term: `Скріншот`, def: `Знімок екрана — зображення всього, що відображається на моніторі або його частині.` }
+            ],
+            tip: `У браузері чи папці файли зручно переглядати у режимах «Плитки» (великі значки), «Список» або «Таблиця» (з розміром і датою змінення).`
+          }
+        ],
+        quiz: [
+          {
+            q: `Скільки бітів містить 1 байт?`,
+            options: [`4 біти`, `8 біт`, `1024 біти`, `16 біт`],
+            correct: 1,
+            explain: `Правильно! 1 байт завжди дорівнює 8 бітам (2³ біт).`
+          },
+          {
+            q: `Який компонент системного блоку називають «мозком» комп'ютера?`,
+            options: [`Блок живлення`, `Накопичувач SSD`, `Процесор (CPU)`, `Відеокарта (GPU)`],
+            correct: 2,
+            explain: `Процесор (CPU) виконує команди програм, обробляє дані й керує роботою всіх пристроїв.`
+          },
+          {
+            q: `Яка складова операційної системи відповідає за керування конкретним пристроєм (наприклад, принтером)?`,
+            options: [`Драйвер`, `Ярлик`, `Блок живлення`, `Таблиця`],
+            correct: 0,
+            explain: `Драйвери — це спеціальні програми, які передають команди від ОС і програм до пристроїв.`
+          },
+          {
+            q: `Яка комбінація клавіш копіює виділений файл або папку у буфер обміну?`,
+            options: [`Ctrl + X`, `Ctrl + V`, `Ctrl + C`, `Alt + F4`],
+            correct: 2,
+            explain: `Ctrl + C копіює об'єкт, Ctrl + X вирізає для переміщення, а Ctrl + V вставляє.`
+          },
+          {
+            q: `До якого виду програмного забезпечення належать середовища Scratch і Python?`,
+            options: [`Системне ПЗ`, `Антивірусні утиліти`, `Інструментальне ПЗ`, `Офісні редактори`],
+            correct: 2,
+            explain: `Середовища програмування належать до інструментального ПЗ — вони створені для розробки інших програм.`
+          }
+        ]
+      },
+      {
+        id: 2,
+        shortTitle: `2. Пошук в Інтернеті`,
+        title: `Розділ 2. Пошук в Інтернеті`,
+        range: `Теми 4–8`,
+        icon: `globe`,
+        description: `Навчись налаштовувати браузер, користуватися пошуковими операторами, відрізняти факти від фейків та захищатися від фішингу й спаму.`,
+        topics: [
+          {
+            num: 4,
+            title: `Глобальна мережа Інтернет та її призначення. Браузери, їх призначення, використання та налаштування`,
+            pages: `с. 36–48`,
+            summary: `<p><strong>Комп'ютерна мережа</strong> з'єднує комп'ютери для обміну даними: <em>PAN</em> (персональна, Bluetooth), <em>LAN</em> (локальна, дім/школа, Wi-Fi) та <em>WAN</em> (глобальна — <strong>Інтернет</strong>). Мобільний інтернет розвивався від 2G і 3G до швидкісних 4G (LTE) та 5G.</p>
+            <ul>
+              <li><strong>Служби Інтернету:</strong> Всесвітня павутина (WWW), електронна пошта, месенджери (Viber, Telegram, WhatsApp), відеоконференції (Zoom, Google Meet), вікі-сайти (Вікіпедія), форуми, хмарні сховища.</li>
+              <li><strong>Браузер</strong> (Chrome, Firefox, Edge, Opera, Safari) перетворює код сайту на зручну вебсторінку. Універсальний рядок зверху називається <code>Omnibox</code> (перехід за <code>Ctrl + L</code>).</li>
+              <li><strong>Корисні функції Chrome:</strong> нова вкладка (<code>Ctrl + T</code>), масштаб (<code>Ctrl + коліщатко</code>), автопереклад сторінки, створення QR-коду для передавання посилання на телефон, <em>Менеджер закладок</em>, <em>Список читання</em> (для читання офлайн) та збереження сторінки повністю (<code>Ctrl + S</code>).</li>
+              <li><strong>Анонімний режим (<code>Ctrl + Shift + N</code>):</strong> не зберігає історію та cookie на пристрої, але не робить вас невидимими для провайдера чи сайтів.</li>
+            </ul>`,
+            terms: [
+              { term: `WWW (Всесвітня павутина)`, def: `Сховище взаємопов'язаних електронних документів (вебсторінок) із текстом, графікою, відео та посиланнями.` },
+              { term: `Браузер`, def: `Програма для перегляду вебсайтів, пошуку інформації та роботи з онлайн-сервісами.` },
+              { term: `URL`, def: `Унікальна адреса вебсторінки (ресурсу) в мережі Інтернет.` },
+              { term: `Закладка`, def: `Збережене в браузері посилання на потрібну сторінку для швидкого повторного відкриття.` }
+            ],
+            tip: `Анонімний режим варто вмикати на чужому або шкільному комп'ютері, щоб після закриття вікна не залишалися ваші паролі та історія переглядів.`
+          },
+          {
+            num: 5,
+            title: `Сайти, розміщення інформації на сайтах. Навігація по сайтах. Пошукові системи, їх призначення`,
+            pages: `с. 49–59`,
+            summary: `<p><strong>Вебсайт</strong> — це сукупність вебсторінок, об'єднаних спільним змістом і навігацією. Кожен сайт має три основи: <em>дизайн</em> (вигляд і структура), <em>контент</em> (тексти, фото, відео) та <em>програмний код</em>, а також <em>адаптивність</em> під екрани різних пристроїв.</p>
+            <ul>
+              <li><strong>Навігація:</strong> шапка сайту, горизонтальне та вертикальне меню, меню, що випадає, значки та <strong>гіперпосилання</strong> (активний текст або кнопка для переходу).</li>
+              <li><strong>Пошукові системи:</strong> Google, Bing, DuckDuckGo, Ecosia. Українські портали новин, погоди й пошти: <em>Ukr.net, Meta.ua, I.ua, Bigmir.net</em>.</li>
+              <li><strong>ШІ-помічники для пошуку:</strong> Google AI, ChatGPT, Perplexity — не просто дають список посилань, а й узагальнюють відповідь із джерелами, які треба перевіряти!</li>
+            </ul>`,
+            terms: [
+              { term: `Гіперпосилання`, def: `Активний фрагмент тексту чи зображення, натискання на яке відкриває іншу сторінку або розділ.` },
+              { term: `Адаптивність сайту`, def: `Здатність сайту автоматично підлаштовувати свій вигляд під телефон, планшет або великий монітор.` },
+              { term: `Пошукова система`, def: `Онлайн-служба для пошуку інформації в мережі за запитами користувача.` }
+            ],
+            tip: `ІТ-історія України: Катерина Ющенко (1919–2001) працювала в Києві над першим у континентальній Європі комп'ютером МЕОМ і в 1954–1955 рр. створила Адресну мову програмування.`
+          },
+          {
+            num: 6,
+            title: `Прості методи та алгоритми пошуку. Ключові слова, запити пошуку. Особливості пошуку різних типів інформації`,
+            pages: `с. 60–69`,
+            summary: `<p>Щоб швидко знайти саме те, що потрібно, використовують влучні <strong>ключові слова</strong> та правильно сформовані <strong>пошукові запити</strong>. Запити бувають <em>інформаційними</em> (дізнатися факт), <em>навігаційними</em> (знайти конкретний сайт) та <em>транзакційними</em> (виконати дію).</p>
+            <ul>
+              <li><strong>Поради:</strong> не шукайте за одним словом, перевіряйте орфографію, не пишіть усе великими літерами, використовуйте початкову форму слова та синоніми.</li>
+              <li><strong>Оператори пошуку Google:</strong>
+                <code>"точний вислів"</code> — точний збіг слів;
+                <code>site:mon.gov.ua</code> — пошук лише на певному сайті;
+                <code>filetype:pdf</code> — пошук файлів конкретного типу;
+                <code>OR</code> — одне слово або інше;
+                <code>-слово</code> — виключити небажане слово (напр., <code>ягуар -автомобіль</code>);
+                <code>define:</code> — значення слова;
+                <code>#тема</code> — пошук за хештегом.
+              </li>
+              <li><strong>Швидкі інструменти Google:</strong> вбудований калькулятор (<code>2+2*5</code>), курс валют (<code>usd to uah</code>), точний час (<code>час у києві</code>), конвертер величин, голосовий пошук і пошук за зображенням (Google Lens).</li>
+            </ul>`,
+            terms: [
+              { term: `Ключове слово`, def: `Слово, яке найточніше відображає суть інформації, що шукається.` },
+              { term: `Контекстний пошук`, def: `Пошук точного вислову або речення, взятого в лапки ("...").` },
+              { term: `Розширений пошук`, def: `Пошук із уточненням умов за допомогою операторів (AND, OR, NOT) або спеціальної форми Google.` }
+            ],
+            tip: `На смартфоні можна виділити незрозуміле слово прямо в тексті браузера — знизу миттєво з'явиться панель швидкого пошуку Google без відкриття нової вкладки.`
+          },
+          {
+            num: 7,
+            title: `Критичне оцінювання інформації, отриманої з Інтернету. Ресурси для перевірки достовірності інформації`,
+            pages: `с. 70–77`,
+            summary: `<p>Не все, що є в Інтернеті або видає пошукова система, є правдивим. Сторінки можуть містити застарілі дані, рекламу під виглядом новин або навмисну дезінформацію — <strong>фейки</strong>.</p>
+            <ul>
+              <li><strong>Як перевірити достовірність:</strong> звертай увагу на сайт, на якому розміщено статтю; перевіряй, хто є автором і коли опубліковано матеріал; порівнюй факти щонайменше на 2–3 різних надійних сайтах (енциклопедії, офіційні установи).</li>
+              <li><strong>Ознаки фейку:</strong> надто емоційні або сенсаційні заголовки, відсутність першоджерел і доказів, заклики «терміново поширити», фото, які не відповідають події.</li>
+              <li><strong>Перевірка безпеки сайтів:</strong> перед переходом чи введенням даних підозрілі вебадреси перевіряють спеціальними сервісами безпеки, такими як <code>isithacked.com</code> або <code>isitphishing.org</code>.</li>
+            </ul>`,
+            terms: [
+              { term: `Критичне оцінювання`, def: `Уміння аналізувати знайдену інформацію, перевіряти її джерела та відрізняти факти від вигадок.` },
+              { term: `Фейк`, def: `Навмисно сфальсифіковане повідомлення або новина, подана під виглядом правди.` },
+              { term: `Першоджерело`, def: `Офіційний або початковий авторський ресурс, звідки інформація з'явилася вперше.` }
+            ],
+            tip: `Копіюючи цитати, вірші чи зображення з мережі у свої навчальні проєкти, завжди зберігай адресу джерела та ім'я автора.`
+          },
+          {
+            num: 8,
+            title: `Безпечне користування Інтернетом. Академічна доброчесність. Правила цитування та використання авторської інформації`,
+            pages: `с. 78–85`,
+            summary: `<p>Безпечна поведінка в мережі захищає твої пристрої, акаунти та особисті дані. Не менш важливо поважати чужу працю — дотримуватися <strong>академічної доброчесності</strong> та авторського права.</p>
+            <ul>
+              <li><strong>Загрози в мережі:</strong> <em>фішинг</em> (підроблені сайти й листи, що виманюють паролі чи дані карток), <em>спам</em> (масове розсилання настирливої реклами чи шкідливих посилань), злам слабких паролів.</li>
+              <li><strong>Правила кібербезпеки:</strong> вигадуй складні паролі, не передавай незнайомцям телефон, адресу, фото чи паролі, не переходь за сумнівними посиланнями та користуйся антивірусом.</li>
+              <li><strong>Академічна доброчесність і цитування:</strong> не видавай чужі тексти, фото чи реферати за власні. Якщо використовуєш уривок тексту чи картинку — бери цитату в лапки та вказуй автора і джерело (або шукай зображення з відкритою ліцензією <em>Creative Commons</em>).</li>
+            </ul>`,
+            terms: [
+              { term: `Фішинг`, def: `Вид інтернет-шахрайства, коли зловмисники під виглядом відомих сервісів викрадають паролі та особисті дані.` },
+              { term: `Спам`, def: `Масове небажане розсилання рекламних або шахрайських повідомлень.` },
+              { term: `Академічна доброчесність`, def: `Чесність у навчанні: самостійне виконання завдань, повага до авторства та обов'язкове посилання на джерела.` }
+            ],
+            tip: `Створи власну «Пам'ятку безпечного Інтернету» з 10 правил і тримай її під рукою для всієї родини!`
+          }
+        ],
+        quiz: [
+          {
+            q: `Яка комбінація клавіш відкриває нове вікно в анонімному режимі в Google Chrome?`,
+            options: [`Ctrl + T`, `Ctrl + Shift + N`, `Ctrl + J`, `Ctrl + S`],
+            correct: 1,
+            explain: `Ctrl + Shift + N відкриває вікно анонімного перегляду, де не зберігається історія на цьому пристрої.`
+          },
+          {
+            q: `Який оператор пошуку Google дозволяє знайти файли лише формату PDF?`,
+            options: [`site:pdf`, `define:pdf`, `filetype:pdf`, `OR pdf`],
+            correct: 2,
+            explain: `Оператор filetype:pdf обмежує видачу результатами у форматі PDF.`
+          },
+          {
+            q: `Що означає виключення слова за допомогою мінуса, наприклад «ягуар -автомобіль»?`,
+            options: [`Знайде тільки автомобілі`, `Прибере зі списку сторінки зі словом «автомобіль»`, `Перекладе слово`, `Відкриє перше відео`],
+            correct: 1,
+            explain: `Оператор мінус (-) виключає небажане слово з результатів пошуку.`
+          },
+          {
+            q: `Як називається шахрайство, коли підроблений сайт або лист намагається викрасти ваш пароль?`,
+            options: [`Спам`, `Гіперпосилання`, `Фішинг`, `Omnibox`],
+            correct: 2,
+            explain: `Фішинг («риболовля») — це виманювання конфіденційних даних під виглядом справжнього сайту чи банку.`
+          },
+          {
+            q: `Що потрібно зробити, коли використовуєш чужий текст або фото у своїй роботі?`,
+            options: [`Видати за власне`, `Вказати автора та джерело (посилання)`, `Змінити одну літеру`, `Приховати назву сайту`],
+            correct: 1,
+            explain: `Це головне правило академічної доброчесності й поваги до авторського права.`
+          }
+        ]
+      },
+      {
+        id: 3,
+        shortTitle: `3. Текстові документи`,
+        title: `Розділ 3. Текстові документи`,
+        range: `Теми 9–14`,
+        icon: `file-text`,
+        description: `Опануй роботу в MS Word і Google Документах: правила набору тексту, форматування, списки, таблиці, графіку та безпаперовий документообіг.`,
+        topics: [
+          {
+            num: 9,
+            title: `Текстовий документ, його об'єкти та їхні властивості. Створення та збереження текстових документів`,
+            pages: `с. 86–92`,
+            summary: `<p>Для створення складних документів використовують <strong>текстові процесори</strong>: <em>MS Word</em>, безкоштовний пакет <em>LibreOffice Writer</em> або хмарні <em>Google Документи</em>. На відміну від простого текстового редактора, текстовий процесор дозволяє додавати зображення, таблиці, схеми й формули.</p>
+            <ul>
+              <li><strong>Основні дії:</strong> введення тексту, редагування (виправлення), форматування (зміна вигляду), вставлення об'єктів, макетування, друк і збереження файлу.</li>
+              <li><strong>Популярні формати:</strong> <code>.docx</code> (стандарт Word), <code>.pdf</code> (зручний для перегляду й друку без змін), <code>.rtf</code>, <code>.txt</code>, <code>.odt</code>.</li>
+              <li><strong>Клавіші навігації:</strong> <code>Home</code> (початок рядка), <code>End</code> (кінець рядка), <code>Page Up</code> / <code>Page Down</code> (сторінка вгору/вниз), <code>Delete</code> (видалити символ праворуч), <code>Insert</code> (режим вставки/заміни).</li>
+            </ul>`,
+            terms: [
+              { term: `Текстовий процесор`, def: `Програма для набору, редагування, оформлення тексту та вставлення таблиць і зображень.` },
+              { term: `Редагування`, def: `Зміна змісту тексту: виправлення помилок, видалення, копіювання чи переміщення фрагментів.` },
+              { term: `Форматування`, def: `Зміна зовнішнього вигляду документа: шрифт, колір, вирівнювання абзаців, поля сторінки.` }
+            ],
+            tip: `Зберігаючи готовий звіт для перегляду на різних пристроях, зручно обрати формат .PDF (Файл → Зберегти як → PDF) — його макет не «з'їде».`
+          },
+          {
+            num: 10,
+            title: `Правила і способи введення тексту, його виділення та редагування. Перевірка правопису`,
+            pages: `с. 93–97`,
+            summary: `<p>Символи з'являються у тій позиції, де блимає <strong>текстовий курсор</strong>. Щоб документ виглядав охайно і легко читався, дотримуйся золотих правил набору тексту:</p>
+            <ul>
+              <li><strong>Один пропуск:</strong> між словами ставте рівно один пропуск (не два й не три).</li>
+              <li><strong>Розділові знаки:</strong> крапку, кому, знак оклику та питання пишуть <em>впритул</em> до попереднього слова, а після них ставлять пробіл.</li>
+              <li><strong>Дефіс і тире:</strong> <em>дефіс</em> усередині слова пишуть <strong>без пропусків</strong> (<code>веб-сайт</code>), а перед <em>тире</em> і після нього завжди ставлять пробіл (<code>Інформатика — цікава наука</code>).</li>
+              <li><strong>Перенесення рядка:</strong> не натискай <code>Enter</code> у кінці кожного рядка — курсор сам перейде далі; <code>Enter</code> потрібен лише для нового абзацу.</li>
+              <li><strong>Перевірка правопису:</strong> червона чи синя хвиляста лінія підказує орфографічні або граматичні помилки.</li>
+            </ul>`,
+            terms: [
+              { term: `Курсор`, def: `Візуальна позначка на екрані, яка вказує місце появи наступного символу.` },
+              { term: `Фрагмент тексту`, def: `Виділена користувачем частина тексту (слово, речення, абзац) для подальших дій.` },
+              { term: `Перевірка правопису`, def: `Автоматичний пошук і виправлення орфографічних та граматичних помилок у текстовому процесорі.` }
+            ],
+            tip: `Для швидкого видалення символу ліворуч від курсора використовуй Backspace, а праворуч — Delete.`
+          },
+          {
+            num: 11,
+            title: `Робота з текстовими фрагментами. Списки у текстових документах`,
+            pages: `с. 98–111`,
+            summary: `<p>Виділений фрагмент тексту можна скопіювати або вирізати — тоді він потрапляє в <strong>буфер обміну</strong> (тимчасову область пам'яті комп'ютера), звідки його легко вставити у потрібне місце.</p>
+            <ul>
+              <li><strong>Операції над фрагментом:</strong> копіювання, вирізування, вставлення, переміщення, видалення, форматування, а також швидкий <em>Пошук та заміна</em> однакових слів у всьому документі.</li>
+              <li><strong>Маркований список:</strong> перелік пунктів із позначками-маркерами (крапки, ромбики, стрілки), коли порядок елементів не є вирішальним (наприклад, перелік освітніх сайтів).</li>
+              <li><strong>Нумерований список:</strong> перелік із цифрами чи літерами, коли важлива чітка послідовність кроків або рейтинг.</li>
+            </ul>`,
+            terms: [
+              { term: `Буфер обміну`, def: `Спеціальна область пам'яті, де тимчасово зберігається скопійований або вирізаний об'єкт.` },
+              { term: `Пошук та заміна`, def: `Інструмент для швидкого знаходження певного слова у документі та заміни його на інше.` },
+              { term: `Списки (маркований/нумерований)`, def: `Спосіб впорядкованого оформлення переліків у вигляді окремих абзаців із маркерами або номерами.` }
+            ],
+            tip: `На вкладці «Рецензування» в Word можна не лише перевірити правопис, а й відкрити «Тезаурус» для добору синонімів або «Статистику» для підрахунку слів.`
+          },
+          {
+            num: 12,
+            title: `Таблиці у текстових документах`,
+            pages: `с. 112–119`,
+            summary: `<p><strong>Таблиця</strong> — зручний спосіб подати однорідні дані (розклад уроків, порівняння ноутбуків, характеристики українських ІТ-компаній) у вигляді рядків і стовпців. На перетині рядка та стовпця утворюється <strong>клітинка (комірка)</strong>.</p>
+            <ul>
+              <li><strong>Створення:</strong> вкладка <em>Вставлення → Таблиця</em> (вибрати кількість рядків і стовпців або накреслити олівцем).</li>
+              <li><strong>Редагування структури:</strong> додавання чи видалення рядків і стовпців, об'єднання кількох клітинок в одну або розбиття клітинки.</li>
+              <li><strong>Оформлення:</strong> налаштування меж, заливки, вирівнювання тексту по центру чи краю клітинки, зміна напрямку тексту та авторозмір.</li>
+            </ul>`,
+            terms: [
+              { term: `Таблиця`, def: `Структура з горизонтальних рядків і вертикальних стовпців для впорядкованого подання даних.` },
+              { term: `Клітинка (комірка)`, def: `Елементарна одиниця таблиці на перетині рядка і стовпця.` },
+              { term: `Об'єднання комірок`, def: `Перетворення кількох виділених сусідніх клітинок на одну спільну.` }
+            ],
+            tip: `У таблиці українських ІТ-компаній зі сторінки 118 ти вже знаєш Paymentwall (Володимир Ковальов), Grammarly та Depositphotos!`
+          },
+          {
+            num: 13,
+            title: `Графічні об'єкти у текстових документах. Параметри сторінок`,
+            pages: `с. 120–136`,
+            summary: `<p>Текстовий документ можна доповнити зображеннями з комп'ютера чи Інтернету, фігурами, піктограмами, схемами <em>SmartArt</em>, 3D-моделями та знімками екрана.</p>
+            <ul>
+              <li><strong>Обтікання текстом:</strong> визначає, як зображення взаємодіє з текстом: <em>у тексті, навколо рамки, за контуром, наскрізне, згори та знизу, за текстом, перед текстом</em>. Картинку також можна обітнути та додати рамку чи художній ефект.</li>
+              <li><strong>Колонтитули та номери сторінок:</strong> верхній і нижній колонтитули автоматично повторюються на кожній сторінці (наприклад, назва предмета чи твоє прізвище).</li>
+              <li><strong>Параметри сторінки (вкладка Макет):</strong> <em>розмір аркуша</em> (А4, А5, А3), <em>орієнтація</em> (книжкова або альбомна) та <em>поля</em> (верхнє, нижнє, ліве, праве).</li>
+            </ul>`,
+            terms: [
+              { term: `Обтікання текстом`, def: `Спосіб розташування тексту навколо вставленого графічного об'єкта.` },
+              { term: `Колонтитул`, def: `Службова область зверху або знизу кожної сторінки документа (для заголовків, дат, імені автора).` },
+              { term: `Орієнтація сторінки`, def: `Розташування аркуша: вертикальна (книжкова) або горизонтальна (альбомна).` }
+            ],
+            tip: `Перекладач на смартфоні дозволяє перекладати текст прямо з фотографії сторінки — але за дрібного шрифту чи поганого світла переклад варто перевіряти!`
+          },
+          {
+            num: 14,
+            title: `Друк документа. Електронний документообіг, безпаперові технології`,
+            pages: `с. 137–143`,
+            summary: `<p>Перед виведенням документа на папір (<code>Ctrl + P</code>) обов'язково переглядають сторінки, перевіряють поля, нумерацію та колонтитули. Проте дедалі частіше документи взагалі не друкують, використовуючи <strong>безпаперові технології</strong>.</p>
+            <ul>
+              <li><strong>Електронний документообіг:</strong> створення, редагування, передавання, зберігання й використання документів у цифровому вигляді без паперу або з мінімальним його використанням.</li>
+              <li><strong>Google Docs (Google Документи):</strong> безкоштовний хмарний офісний пакет, що працює прямо в браузері без установлення, автоматично зберігає зміни на Google Диску й відкривається з будь-якого смартфона чи ПК.</li>
+              <li><strong>Спільний доступ:</strong> документом можна поділитися за посиланням або вказати email і обрати рівень прав: <em>Може переглядати</em>, <em>Може коментувати</em> або <em>Може редагувати</em>.</li>
+            </ul>`,
+            terms: [
+              { term: `Електронний документообіг`, def: `Сукупність процесів створення, передавання, зберігання та використання електронних документів.` },
+              { term: `Безпаперові технології`, def: `Організація обробки інформації в цифровій формі без друку на папері.` },
+              { term: `Спільний доступ`, def: `Надання іншим користувачам прав переглядати, коментувати або спільно редагувати хмарний документ.` }
+            ],
+            tip: `Коли надсилаєш посилання на домашню роботу в Google Docs учителеві, перевір, чи відкрито доступ хоча б на «перегляд»!`
+          }
+        ],
+        quiz: [
+          {
+            q: `Як правильно набрати слово з дефісом і речення з тире у текстовому документі?`,
+            options: [
+              `веб - сайт; Інформатика—наука`,
+              `веб-сайт; Інформатика — наука`,
+              `веб- сайт; Інформатика-наука`,
+              `веб -сайт; Інформатика  —  наука`
+            ],
+            correct: 1,
+            explain: `Дефіс у словах пишуть без пропусків, а перед тире і після нього обов'язково ставлять по одному пропуску.`
+          },
+          {
+            q: `Як називається область пам'яті комп'ютера, куди потрапляє скопійований текст?`,
+            options: [`Колонтитул`, `Операційна система`, `Буфер обміну`, `Тезаурус`],
+            correct: 2,
+            explain: `Скопійовані або вирізані об'єкти тимчасово зберігаються у буфері обміну.`
+          },
+          {
+            q: `Який тип списку найкраще обрати для покрокової інструкції, де важливий точний порядок дій?`,
+            options: [`Нумерований список`, `Маркований список`, `Таблицю без меж`, `Нижній колонтитул`],
+            correct: 0,
+            explain: `Нумерований список чітко показує черговість кроків (1, 2, 3…).`
+          },
+          {
+            q: `Що змінює параметр «Альбомна орієнтація сторінки»?`,
+            options: [`Колір шрифту`, `Розташування аркуша на горизонтальне`, `Кількість маркерів`, `Швидкість інтернету`],
+            correct: 1,
+            explain: `В альбомній орієнтації сторінка розташовується горизонтально (ширина більша за висоту), що зручно для широких таблиць і плакатів.`
+          },
+          {
+            q: `Які три рівні прав можна надати користувачам у Google Документах через «Спільний доступ»?`,
+            options: [
+              `Видалити, завантажити, роздрукувати`,
+              `Переглядати, коментувати, редагувати`,
+              `Копіювати, форматувати, архівувати`,
+              `Читати, перекладати, кодувати`
+            ],
+            correct: 1,
+            explain: `Google Документи дозволяють гнучко обмежувати права доступу: лише перегляд, коментування або повне редагування.`
+          }
+        ]
+      },
+      {
+        id: 4,
+        shortTitle: `4. Алгоритми і Scratch`,
+        title: `Розділ 4. Алгоритми та програми. Анімації та узори`,
+        range: `Теми 15–24`,
+        icon: `cpu`,
+        description: `Занурся у світ програмування в Scratch: навчись складати лінійні алгоритми, розгалуження, цикли, використовувати датчики, відеоспостереження та створювати власні ігри й чат-боти.`,
+        topics: [
+          {
+            num: 15,
+            title: `Алгоритми та їхня роль у житті людини. Виконавець`,
+            pages: `с. 144–150`,
+            summary: `<p><strong>Алгоритм</strong> — це чітка послідовність команд, виконання яких приводить до розв'язання поставленої задачі. Того, хто виконує ці команди, називають <strong>виконавцем</strong>.</p>
+            <ul>
+              <li><strong>Середовище Scratch:</strong> візуальна мова програмування, де програми складають із кольорових блоків, як конструктор.</li>
+              <li><strong>Складові проєкту Scratch:</strong> <em>спрайт</em> (виконавець), <em>програмний код</em> (скрипти) та <em>фон (тло) сцени</em>.</li>
+              <li><strong>Перша анімація:</strong> блоки <code>перемістити на 10 кроків</code>, <code>ковзати 1 сек до випадкова позиція</code>, <code>говорити Привіт! 2 сек</code>, <code>змінити ефект</code> та <code>наступне тло</code> дозволяють створювати діалоги й «Анімацію імені».</li>
+            </ul>`,
+            terms: [
+              { term: `Алгоритм`, def: `Послідовність команд, виконання яких забезпечує розв'язання поставленої задачі.` },
+              { term: `Виконавець (Спрайт)`, def: `Об'єкт у середовищі Scratch, який розуміє та виконує команди користувача.` },
+              { term: `Проєкт Scratch`, def: `Файл, що містить спрайти, фони сцени, звуки та скрипти програми.` }
+            ],
+            tip: `Щоб зберегти проєкт на комп'ютер із Scratch, обери Файл → Вивантажити на ваш комп'ютер.`
+          },
+          {
+            num: 16,
+            title: `Виконавці алгоритмів та їхні системи команд. Способи опису алгоритму. Програма`,
+            pages: `с. 151–158`,
+            summary: `<p>Кожен виконавець може виконувати лише ті команди, які входять до його <strong>системи команд</strong>. Алгоритми описують <em>словесно</em>, <em>графічно</em> (блок-схемами) або у вигляді <em>програми</em> мовою програмування.</p>
+            <ul>
+              <li><strong>Сцена в Scratch:</strong> їй теж можна давати команди (зміна тла, звуки, змінні), крім блоків групи <em>Рух</em>.</li>
+              <li><strong>Змінні та Датчики:</strong> змінна зберігає число чи текст (напр., <code>перший доданок</code>, <code>сума</code>). Команда датчика <code>запитати ... і чекати</code> записує введену відповідь користувача у блок <code>відповідь</code>.</li>
+              <li><strong>Оператори:</strong> виконують обчислення (<code>+</code>, <code>-</code>, <code>*</code>, <code>/</code>), склеюють текст (<code>з'єднати</code>) або генерують <code>випадкове від 1 до 10</code>.</li>
+            </ul>`,
+            terms: [
+              { term: `Програма`, def: `Текст алгоритму розв'язування певної задачі, записаний за правилами мови програмування.` },
+              { term: `Змінна`, def: `Іменована величина у програмі, значення якої можна зберігати, переглядати та змінювати.` },
+              { term: `Датчик`, def: `Команда в Scratch, яка зчитує дані від користувача, мишки, клавіатури чи дотику.` }
+            ],
+            tip: `Завдяки датчикам і змінним ти можеш створити програму-помічника для розв'язування рівнянь на знаходження невідомого доданка чи від'ємника!`
+          },
+          {
+            num: 17,
+            title: `Поняття моделі та моделювання. Роль абстрагування для створення моделі`,
+            pages: `с. 159–165`,
+            summary: `<p><strong>Модель</strong> — це спрощене подання реального об'єкта або процесу (глобус — модель Землі, а рівняння чи скрипт у Scratch — математична чи інформаційна модель).</p>
+            <ul>
+              <li><strong>Абстрагування:</strong> виділення лише найголовніших властивостей об'єкта для задачі й відкидання несуттєвих деталей.</li>
+              <li><strong>Категорії блоків Scratch:</strong> Рух, Вигляд, Звук, Події, Керування, Датчики, Оператори, Змінні, Мої блоки, а також додаткові розширення (Музика, Олівець, Відеоспостереження).</li>
+              <li><strong>Координати і сповіщення:</strong> положення спрайта визначають координати <code>(x, y)</code> (у «Грі на уважність» об'єкти з'являються у випадковому місці <code>x: -150..150, y: -150..150</code> та випадкового розміру <code>30..100</code>).</li>
+            </ul>`,
+            terms: [
+              { term: `Модель`, def: `Спрощене подання об'єкта, явища або процесу для їх дослідження чи імітації.` },
+              { term: `Моделювання`, def: `Створення копій реальних об'єктів або опис явищ за допомогою формул і алгоритмів.` },
+              { term: `Абстрагування`, def: `Зосередження на головних характеристиках об'єкта без зайвих дрібниць.` }
+            ],
+            tip: `Поточні координати (x, y) та напрямок спрайта завжди видно в інформаційній панелі прямо під сценою Scratch.`
+          },
+          {
+            num: 18,
+            title: `Лінійні алгоритми. Проєкт «Програма для визначення площі фігур»`,
+            pages: `с. 166–177`,
+            summary: `<p><strong>Лінійним</strong> називають алгоритм, у якому всі команди виконуються суворо послідовно одна за одною — без перевірок умов і без повторень.</p>
+            <ul>
+              <li><strong>6 етапів створення проєкту гри в Scratch:</strong> 1) <em>Організаційний</em> (ідея, мета, карта проєкту); 2) <em>Підготовчий</em> (спрайти, кнопки, фони, звуки); 3) <em>Проєктний</em> (складання скриптів і сповіщень); 4) <em>Тестувальний</em> (пошук помилок); 5) <em>Презентаційний</em> (публікація на scratch.mit.edu); 6) <em>Підсумковий</em>.</li>
+              <li><strong>Проєкт «Площа фігур»:</strong> користувач натискає «Розпочати» → обирає <em>Квадрат</em> (<code>S = a × a</code>) або <em>Прямокутник</em> (<code>S = a × b</code>) → вводить сторони → отримує результат. Керування сценами працює через команди <code>оповістити ...</code> та <code>коли я отримую ...</code>.</li>
+            </ul>`,
+            terms: [
+              { term: `Лінійний алгоритм`, def: `Алгоритм з однозначною послідовністю команд без розгалужень і циклів.` },
+              { term: `Проєктування`, def: `Процес підготовки, створення, тестування та презентації власного проєкту.` },
+              { term: `Сповіщення (Повідомлення)`, def: `Сигнал, яким один спрайт передає команду іншому спрайту або сцені.` }
+            ],
+            tip: `Для поглиблення знань учням 5–9 класів доступний безкоштовний український онлайн-курс «Алгорітми і проєкти Scratch» на платформі Prometheus.`
+          },
+          {
+            num: 19,
+            title: `Висловлювання. Істинні та хибні висловлювання. Алгоритми з розгалуженнями`,
+            pages: `с. 178–183`,
+            summary: `<p><strong>Висловлювання</strong> — це розповідне речення, яке може бути або <em>істинним</em> (правдивим, напр. «Київ — столиця України»), або <em>хибним</em> («У квадрата 5 сторін»). На основі істинності умови будують <strong>алгоритми з розгалуженням</strong>.</p>
+            <ul>
+              <li><strong>Неповне розгалуження (<code>Якщо &lt;умова&gt; то ...</code>):</strong> команди виконуються лише тоді, коли умова істинна.</li>
+              <li><strong>Повне розгалуження (<code>Якщо &lt;умова&gt; то ... інакше ...</code>):</strong> одна гілка виконується при істинній умові, а інша — при хибній.</li>
+              <li><strong>Умови в Scratch:</strong> порівняння (<code>&lt;</code>, <code>&gt;</code>, <code>=</code>) та логічні зв'язки <code>і</code>, <code>або</code>, <code>не</code> (напр., у проєкті «Визначення вікової категорії» за роком народження).</li>
+            </ul>`,
+            terms: [
+              { term: `Висловлювання`, def: `Розповідне речення, що містить ствердження або заперечення і може бути істинним чи хибним.` },
+              { term: `Повне розгалуження`, def: `Структура «Якщо — то — інакше», де передбачені дії для обох результатів перевірки умови.` },
+              { term: `Неповне розгалуження`, def: `Структура «Якщо — то», що виконує дії лише за істинної умови.` }
+            ],
+            tip: `У проєкті «Вікова категорія» програмують кілька перевірок поспіль: якщо вік < 6 — дошкільний вік, якщо від 6 до 17 — шкільний тощо.`
+          },
+          {
+            num: 20,
+            title: `Проєкт «Клавіатурний тренажер»`,
+            pages: `с. 184–190`,
+            summary: `<p>У цьому проєкті ми створюємо гру для тренування швидкості й уважності введення символів на клавіатурі. На сцені рухається кулька з буквою, а користувач має натиснути її та підтвердити.</p>
+            <ul>
+              <li><strong>Особливості реалізації:</strong> спрайт із літерою має кілька образів (А, Б, В, Г, Д…) та постійно ковзає по сцені в блоці <code>завжди</code>.</li>
+              <li><strong>Перевірка введення:</strong> використовується поєднання циклу з умовою <code>повторити до &lt;відповідь = А&gt;</code> та повного розгалуження: якщо відповідь правильна — <em>«Молодець!»</em> і перехід до наступного образу літери; інакше — <em>«Спробуй ще раз!»</em>.</li>
+              <li><strong>Корисний прийом:</strong> щоб не складати однакові скрипти для кожної букви з нуля, натисніть правою кнопкою по блоку та оберіть <code>Дублювати</code>.</li>
+            </ul>`,
+            terms: [
+              { term: `Образи спрайта`, def: `Різні варіанти зовнішнього вигляду одного виконавця (наприклад, різні літери або пози під час руху).` },
+              { term: `Дублювання коду`, def: `Швидке копіювання блоку команд у Scratch через контекстне меню.` }
+            ],
+            tip: `Додавайте у кожну гру кнопки «Інструкції» (показує правила на 5 секунд і ховає їх) та «Вихід» для зручної навігації!`
+          },
+          {
+            num: 21,
+            title: `Алгоритми з повтореннями. Цикли`,
+            pages: `с. 191–196`,
+            summary: `<p>Щоб не писати одні й ті самі команди десятки разів поспіль, у програмуванні використовують <strong>цикли</strong> — багаторазове повторення послідовності дій. Команди всередині циклу утворюють <strong>тіло циклу</strong>.</p>
+            <ul>
+              <li><strong>Цикл із лічильником (<code>повторити N</code>):</strong> повторює тіло циклу наперед задану кількість разів (напр., 10 прикладів у проєкті «Таблиця множення» або 4 сторони квадрата).</li>
+              <li><strong>Цикл із умовою / передумовою (<code>повторити до &lt;умова&gt;</code>):</strong> повторює команди, доки умова не стане істинною. Якщо подія вже настала — тіло циклу не виконається жодного разу.</li>
+              <li><strong>Безумовний цикл (<code>завжди</code>):</strong> повторюється безперервно до зупинки програми.</li>
+            </ul>`,
+            terms: [
+              { term: `Цикл`, def: `Алгоритмічна структура, що забезпечує багаторазове виконання певної послідовності команд.` },
+              { term: `Тіло циклу`, def: `Набір команд, який розміщується всередині циклу та повторюється.` },
+              { term: `Цикл із лічильником`, def: `Повторення дій чітко визначену кількість разів.` }
+            ],
+            tip: `У тренажері таблиці множення не забудь на старті сховати змінну «добуток» і показати її лише тоді, коли гравець дасть правильну відповідь!`
+          },
+          {
+            num: 22,
+            title: `Керування рухом об'єктів за допомогою різних пристроїв введення`,
+            pages: `с. 197–202`,
+            summary: `<p>Спрайтами можна керувати не лише кнопками клавіатури чи вказівником миші (<code>слідувати за вказівник</code>), а й рухами власних рук перед вебкамерою!</p>
+            <ul>
+              <li><strong>Розширення «Відеоспостереження»:</strong> підключається через кнопку розширень у лівому нижньому куті Scratch.</li>
+              <li><strong>Керування камерою:</strong> <code>увімкнути/вимкнути відео</code>, <code>перевернути</code> (дзеркальне відображення), <code>встановити прозорість відео</code> (<code>0</code> — чітка картинка з камери, <code>100</code> — камера повністю прозора).</li>
+              <li><strong>Подія руху:</strong> блок <code>коли рух відео &gt; 20</code> (або <code>50</code>) спрацьовує, коли ти торкаєшся спрайта рукою в кадрі — у грі «Зловити кульку» кулька лопає, звучить звук <em>Pop</em> і вона стрибає в інше місце.</li>
+            </ul>`,
+            terms: [
+              { term: `Відеоспостереження в Scratch`, def: `Розширення, що дозволяє отримувати відео з вебкамери та реагувати спрайтам на рухи перед нею.` },
+              { term: `Прозорість відео`, def: `Параметр від 0 (повністю видно зображення) до 100 (повністю прозоре).` }
+            ],
+            tip: `Якщо гра занадто чутлива і кулька втікає від найменшого руху, збільш поріг у блоці «коли рух відео > 50».`
+          },
+          {
+            num: 23,
+            title: `Проєкт «Програма для малювання»`,
+            pages: `с. 203–213`,
+            summary: `<p>Додавши розширення <strong>«Олівець»</strong>, ми перетворюємо Scratch на власний графічний редактор! Виконавець слідує за вказівником миші й залишає за собою кольорову лінію.</p>
+            <ul>
+              <li><strong>Команди малювання:</strong> <code>очистити все</code>, <code>опустити олівець</code> (малює), <code>підняти олівець</code> (переміщується без сліду), <code>надати олівцю колір</code>, <code>задати розмір олівця</code>.</li>
+              <li><strong>Палітра, Ластик і Товщина:</strong> окремі спрайти-кольори надсилають сповіщення (<code>обрано колір 1</code>), Ластик встановлює білий колір, а змінну <code>товщина лінії</code> на сцені перемикають подвійним кліком у режим <strong>повзунка</strong>.</li>
+              <li><strong>Захист панелі кнопок:</strong> умова <code>якщо &lt;мишку натиснуто і мишка y &gt; -100&gt; то опустити олівець інакше підняти</code> не дає олівцю замальовувати нижню панель із кнопками палітри та камери!</li>
+            </ul>`,
+            terms: [
+              { term: `Олівець у Scratch`, def: `Розширення, що дозволяє спрайтам креслити лінії, візерунки та геометричні узори на сцені.` },
+              { term: `Повзунок змінної`, def: `Режим відображення змінної на сцені, що дозволяє плавно змінювати її числове значення мишкою.` }
+            ],
+            tip: `У цій програмі можна також додати кнопки ввімкнення камери — тоді можна малювати просто поверх свого фото з вебкамери!`
+          },
+          {
+            num: 24,
+            title: `Проєкт «Чат-бот на тему Інтернет»`,
+            pages: `с. 214–221`,
+            summary: `<p><strong>Чат-бот</strong> — це інтерактивна програма-співрозмовник, яка ставить запитання, аналізує відповіді та реагує на них. У підручнику ми створюємо навчального бота з двома темами: <em>«1. Основні поняття Інтернету»</em> і <em>«2. Безпека в мережі»</em>.</p>
+            <ul>
+              <li><strong>Логіка меню:</strong> бот вітається і запитує номер теми. Через розгалуження (<code>Якщо відповідь = 1</code> або <code>2</code>) він надсилає відповідне сповіщення та перемикає фон сцени з підказками (WWW, Електронна пошта, Вікі, Веб-форум, FTP).</li>
+              <li><strong>Організація великих проєктів:</strong> щоб не заплутатися серед десятків запитань, сповіщення нумерують за структурою (<code>2.1 запитання</code>, <code>2.2 запитання</code> тощо) та перевіряють, чи відповідає тло сцени поточному питанню.</li>
+            </ul>`,
+            terms: [
+              { term: `Чат-бот`, def: `Програма, яка імітує діалог із користувачем за допомогою текстових запитань, відповідей і підказок.` },
+              { term: `Карта проєкту`, def: `Схема всіх екранів (фонів), кнопок і переходів між ними перед початком програмування.` }
+            ],
+            tip: `Після тестування опублікуй готовий чат-бот на сайті scratch.mit.edu у шкільному акаунті та дай погратися однокласникам.`
+          }
+        ],
+        quiz: [
+          {
+            q: `З яких трьох головних частин складається проєкт у середовищі Scratch?`,
+            options: [
+              `Принтер, монітор і миша`,
+              `Спрайт (виконавець), програмний код і фон сцени`,
+              `Таблиця, колонтитул і абзац`,
+              `Біт, байт і мегабайт`
+            ],
+            correct: 1,
+            explain: `Кожен проєкт Scratch об'єднує спрайтів-виконавців, їхні скрипти (код) та фон сцени.`
+          },
+          {
+            q: `Яка структура відповідає схемі «Якщо &lt;умова&gt; то [дія 1] інакше [дія 2]»?`,
+            options: [`Лінійний алгоритм`, `Цикл із лічильником`, `Повне розгалуження`, `Неповне розгалуження`],
+            correct: 2,
+            explain: `Повне розгалуження має дві гілки дій — і для істинної умови («то»), і для хибної («інакше»).`
+          },
+          {
+            q: `Скільки разів виконається тіло циклу «повторити до &lt;умова&gt;», якщо умова ВЖЕ істинна до початку циклу?`,
+            options: [`Жодного разу (0 разів)`, `1 раз`, `10 разів`, `Безкінечно`],
+            correct: 0,
+            explain: `У циклі з передумовою спочатку перевіряється умова: якщо вона вже істинна, тіло циклу не виконується жодного разу.`
+          },
+          {
+            q: `Яке значення прозорості відео в Scratch робить зображення з вебкамери повністю чітким?`,
+            options: [`100`, `50`, `0`, `-100`],
+            correct: 2,
+            explain: `Значення 0 — чітке зображення без прозорості, а 100 — повністю прозоре відео.`
+          },
+          {
+            q: `Навіщо в проєкті «Програма для малювання» додають умову «мишка y > -100»?`,
+            options: [
+              `Щоб прискорити процесор`,
+              `Щоб олівець не малював поверх кнопок у нижній частині екрана`,
+              `Щоб перевернути камеру`,
+              `Щоб увімкнути звук`
+            ],
+            correct: 1,
+            explain: `Так ми обмежуємо зону малювання, щоб при натисканні кнопок палітри внизу сцени не залишалися зайві сліди.`
+          }
+        ]
+      },
+      {
+        id: 5,
+        shortTitle: `5. Комп'ютерна графіка`,
+        title: `Розділ 5. Комп'ютерна графіка`,
+        range: `Теми 25–28`,
+        icon: `palette`,
+        description: `Розрізняй растрові й векторні зображення, опануй векторний редактор LibreOffice Draw, навчись керувати шарами, групами фігур та тривимірними ефектами.`,
+        topics: [
+          {
+            num: 25,
+            title: `Растрові і векторні зображення, їх об'єкти і властивості`,
+            pages: `с. 222–229`,
+            summary: `<p><strong>Комп'ютерна графіка</strong> вивчає технології створення та обробки візуальних об'єктів: малюнків, фотографій, схем, креслень. Для їх створення застосовують апаратні засоби (сканер, фотоапарат, графічний планшет) і графічні редактори (<em>LibreOffice Draw, Photoshop, CorelDRAW, Canva, Photopea</em>).</p>
+            <ul>
+              <li><strong>Растрова графіка:</strong> будується з дрібних кольорових точок — <em>пікселів</em>. Ідеальна для фотографій, але при сильному збільшенні втрачає чіткість (видно «квадратики»).</li>
+              <li><strong>Векторна графіка:</strong> будується з геометричних примітивів (точок, ліній, кривих, прямокутників, кіл), описаних формулами. Масштабується до будь-якого розміру <strong>без втрати якості</strong>!</li>
+              <li><strong>3D-графіка:</strong> створює об'ємні моделі та сцени для ігор, мультфільмів та архітектури.</li>
+              <li><strong>Властивості векторного об'єкта:</strong> тип фігури, розміри та координати, тип/колір/товщина контуру, стиль заповнення (суцільний колір, градієнт, штрихування).</li>
+            </ul>`,
+            terms: [
+              { term: `Графічне зображення`, def: `Інформація у вигляді малюнка, фото, схеми чи діаграми для обробки на цифровому пристрої.` },
+              { term: `Растрове зображення`, def: `Зображення, утворене сіткою кольорових пікселів (фотографії, знімки екрана).` },
+              { term: `Векторне зображення`, def: `Зображення з геометричних примітивів, які легко редагувати й збільшувати без погіршення чіткості.` }
+            ],
+            tip: `У LibreOffice Draw для ліній і фігур можна задати точну ширину в пунктах (пт), прозорість у %, пунктирний контур, стрілки на кінцях та осьовий градієнт!`
+          },
+          {
+            num: 26,
+            title: `Формати файлів растрових і векторних зображень. Багатошарові зображення, розміщення об'єктів у шарах`,
+            pages: `с. 230–236`,
+            summary: `<p>Вибір формату файлу залежить від типу графіки та задачі: для фотографій і публікації в мережі підходять растрові формати, а для логотипів, схем і плакатів — векторні.</p>
+            <ul>
+              <li><strong>Растрові формати:</strong> <code>.jpg / .jpeg</code> (фото з малим розміром), <code>.png</code> (підтримує прозорий фон), <code>.gif</code> (прості анімації), <code>.bmp</code> (великий файл без стиснення).</li>
+              <li><strong>Векторні формати:</strong> <code>.odg</code> (стандартний малюнок ODF у LibreOffice Draw), <code>.svg</code> (вектор для вебсайтів), <code>.cdr</code> (CorelDRAW), <code>.ai</code> (Adobe Illustrator).</li>
+              <li><strong>Багатошаровість у Draw:</strong> векторні фігури лежать одна над одною в окремих шарах. Щоб змінити перекриття (наприклад, сховати вушка за головою ведмедика), використовують команди: <em>На передній план</em> (<code>Ctrl+Shift++</code>), <em>Перемістити вперед</em> (<code>Ctrl++</code>), <em>Перемістити назад</em> (<code>Ctrl+-</code>), <em>На задній план</em> (<code>Ctrl+Shift+-</code>).</li>
+            </ul>`,
+            terms: [
+              { term: `Формат .ODG`, def: `Стандартний векторний формат файлів (малюнок ODF) у програмі LibreOffice Draw.` },
+              { term: `Багатошарове зображення`, def: `Композиція, де об'єкти розміщені на різних рівнях перекриття один над одним.` },
+              { term: `Порядок шарів`, def: `Керування тим, який об'єкт перекриває інші (передній або задній план).` }
+            ],
+            tip: `Перевага векторних файлів: невеликий розмір файлу й легка зміна будь-якого окремого вушка чи ока навіть після збереження!`
+          },
+          {
+            num: 27,
+            title: `Операції над об'єктами та групами об'єктів`,
+            pages: `с. 237–243`,
+            summary: `<p>Коли малюнок складається з десятків дрібних деталей (хмари, кораблик, птахи), їх зручно об'єднувати в <strong>групи</strong>, щоб переміщувати, копіювати або масштабувати як єдине ціле.</p>
+            <ul>
+              <li><strong>Робота з групами:</strong> групування виділених об'єктів, вхід у групу для редагування деталі (<code>F3</code>), вихід із групи (<code>Ctrl + F3</code>), розгрупування (<code>Ctrl + Alt + Shift + G</code>).</li>
+              <li><strong>Точне розташування:</strong> <em>Вирівнювання</em> (ліворуч, праворуч, по центру, згори, знизу), <em>Віддзеркалення</em> (по вертикалі та горизонталі), налаштування <em>Положення та розміру</em> (<code>F4</code>).</li>
+              <li><strong>Композиції:</strong> поєднуючи <em>радіальний градієнт</em> (для сонця), прямокутники з лінійним градієнтом (небо, море) та інструмент <em>Крива лінія</em> (силуети птахів і хвилі), у LibreOffice Draw створюють цілісні пейзажі.</li>
+            </ul>`,
+            terms: [
+              { term: `Групування об'єктів`, def: `Об'єднання кількох графічних фігур в один спільний об'єкт для зручного переміщення і форматування.` },
+              { term: `Віддзеркалення`, def: `Дзеркальний переворот об'єкта або групи вздовж вертикальної чи горизонтальної осі.` },
+              { term: `Вирівнювання`, def: `Розташування виділених об'єктів відносно спільного краю або центру.` }
+            ],
+            tip: `Щоб відредагувати одну фігуру всередині згрупованого персонажа, не обов'язково розгруповувати все — просто натисни F3 («Увійти в групу»).`
+          },
+          {
+            num: 28,
+            title: `Графічні ефекти. Поєднання тексту та графічних зображень`,
+            pages: `с. 244–249`,
+            summary: `<p>Векторний редактор LibreOffice Draw дозволяє додавати виразні <strong>графічні ефекти</strong>: падаючу тінь, налаштовану прозорість, градієнти, штрихування та перетворення плоских фігур на об'ємні.</p>
+            <ul>
+              <li><strong>Команда «Перетворити» в Draw:</strong> плоский контур або фігуру можна перетворити <em>на багатокутник</em>, <em>на контур</em>, <em>на тривимірний об'єкт (3D)</em>, <em>на тіло обертання</em> (напр., вазу чи келих із профілю), <em>на растрове зображення</em> або <em>на метафайл</em>.</li>
+              <li><strong>Текст + графіка:</strong> написи можна розміщувати всередині будь-яких фігур, застосовувати до них об'ємні ефекти та поєднувати з ілюстраціями для створення листівок, коміксів і схем.</li>
+            </ul>`,
+            terms: [
+              { term: `Тіло обертання`, def: `Тривимірний об'єкт у Draw, утворений обертанням плоского контуру навколо осі.` },
+              { term: `Графічний ефект`, def: `Візуальне покращення об'єкта: тінь, прозорість, градієнтний перехід або 3D-об'єм.` }
+            ],
+            tip: `Спробуй намалювати половину профілю вази кривою лінією та обрати «Перетворити → на тіло обертання» — програма миттєво створить 3D-модель!`
+          }
+        ],
+        quiz: [
+          {
+            q: `З чого складається растрове зображення?`,
+            options: [
+              `З математичних формул кривих`,
+              `Із сітки кольорових точок (пікселів)`,
+              `Лише з текстових абзаців`,
+              `З трьох шарів металу`
+            ],
+            correct: 1,
+            explain: `Растрові зображення (наприклад, фотографії) утворюються з безлічі маленьких пікселів.`
+          },
+          {
+            q: `Яка головна перевага векторної графіки при зміні розміру малюнка?`,
+            options: [
+              `Файл стає величезним`,
+              `Зображення можна збільшувати або зменшувати без втрати якості`,
+              `З'являються помітні квадратики`,
+              `Зникають усі кольори`
+            ],
+            correct: 1,
+            explain: `Векторні об'єкти будуються за формулами примітивів, тому при будь-якому масштабуванні контури лишаються ідеально рівними.`
+          },
+          {
+            q: `Яке розширення має файл малюнка ODF, збережений у LibreOffice Draw?`,
+            options: [`.docx`, `.mp3`, `.odg`, `.exe`],
+            correct: 2,
+            explain: `LibreOffice Draw за замовчуванням зберігає векторні малюнки у форматі ODF (.odg).`
+          },
+          {
+            q: `Яка дія в LibreOffice Draw допомагає переміщати складний малюнок із 10 фігур як один єдиний об'єкт?`,
+            options: [`Обтинання`, `Групування`, `Знищення`, `Архівування`],
+            correct: 1,
+            explain: `Групування об'єднує вибрані елементи в одне ціле для зручного перенесення й масштабування.`
+          },
+          {
+            q: `На що можна перетворити плоску фігуру в LibreOffice Draw через контекстне меню «Перетворити»?`,
+            options: [
+              `Лише на звуковий файл`,
+              `На 3D-об'єкт або тіло обертання`,
+              `На текстову таблицю Word`,
+              `На URL-посилання`
+            ],
+            correct: 1,
+            explain: `Draw вміє перетворювати 2D-контури на тривимірні об'єкти, тіла обертання, багатокутники й растр.`
+          }
+        ]
+      },
+      {
+        id: 6,
+        shortTitle: `6. Штучний інтелект`,
+        title: `Розділ 6. Штучний інтелект поруч`,
+        range: `Теми 29–34`,
+        icon: `sparkles`,
+        description: `Дізнайся, як навчається ШІ, як складати сильні 4-компонентні промти, вчитися доброчесно, генерувати картинки словами та захищати особисті дані.`,
+        topics: [
+          {
+            num: 29,
+            title: `Знайомство зі штучним інтелектом. Де ми зустрічаємо ШІ. Як ШІ навчається: дані та приклади`,
+            pages: `с. 250–256`,
+            summary: `<p><strong>Штучний інтелект (ШІ)</strong> — це здатність комп'ютера чи програми виконувати завдання, для яких зазвичай потрібен розум людини: упізнавати зображення, слухати мову, розуміти текст, порівнювати дані, навчатися на прикладах і підказувати відповіді.</p>
+            <ul>
+              <li><strong>Важливо пам'ятати:</strong> комп'ютер не живий і не мислить, як людина — він знаходить закономірності в мільйонах прикладів.</li>
+              <li><strong>Де ШІ поруч щодня:</strong> голосові помічники, рекомендації відео на YouTube, розблокування телефона за обличчям, перекладачі, маски в камері, розумні суперники в іграх.</li>
+              <li><strong>Помічники зі ШІ:</strong> ChatGPT, Gemini, Copilot, Claude — допомагають скорочувати тексти, виправляти помилки, пояснювати складні правила та шукати ідеї.</li>
+            </ul>`,
+            terms: [
+              { term: `Штучний інтелект (ШІ)`, def: `Здатність програм розпізнавати мову й зображення, аналізувати дані та допомагати людині розв'язувати завдання.` },
+              { term: `Навчання ШІ`, def: `Процес, під час якого алгоритм аналізує безліч даних із прикладами, щоб покращувати свої відповіді.` }
+            ],
+            tip: `У роботі з текстами (наприклад, у Claude чи ChatGPT) зручно просити: скоротити довгий текст до 3 речень, придумати заголовок або скласти план!`
+          },
+          {
+            num: 30,
+            title: `Чат-боти: особливості промтів`,
+            pages: `с. 257–263`,
+            summary: `<p><strong>Промт</strong> — це запит до ШІ, написаний або вимовлений людською мовою. Що точніше ти сформулюєш промт, то кориснішою буде відповідь бота.</p>
+            <ul>
+              <li><strong>4 складові сильного промту:</strong> 1) <em>Роль</em> («Ти вчитель інформатики…»); 2) <em>Завдання</em> («Поясни тему…»); 3) <em>Деталі</em> («Для учня 5 класу, з 2 прикладами»); 4) <em>Формат</em> («У вигляді нумерованого списку до 5 пунктів»). І не бійся уточнювати: «Додай приклад» чи «Поясни простіше»!</li>
+              <li><strong>Види запитів:</strong> <em>Знайти</em> (факт), <em>Пояснити</em> (простими словами), <em>Скласти</em> (план, список), <em>Порівняти</em> (спільне й відмінне), <em>Перекласти</em>.</li>
+              <li><strong>Вигадка ШІ (галюцинація):</strong> відповідь, яка звучить дуже переконливо, але містить помилку або вигаданий факт! Завжди звіряй дати, імена та джерела з підручником.</li>
+            </ul>`,
+            terms: [
+              { term: `Промт`, def: `Текстовий або голосовий запит-інструкція користувача для чат-бота зі штучним інтелектом.` },
+              { term: `Вигадка ШІ`, def: `Впевнено сформульована, але насправді неправдива або неточна відповідь штучного інтелекту.` }
+            ],
+            tip: `Перевіряти відповідь ШІ за підручником чи надійним сайтом — це не недовіра, а мудра звичка сучасного школяра!`
+          },
+          {
+            num: 31,
+            title: `ШІ як помічник у навчанні. Академічна доброчесність`,
+            pages: `с. 264–269`,
+            summary: `<p>ШІ може бути чудовим репетитором, якщо використовувати його чесно, щоб <strong>зрозуміти</strong> тему, а не просто списати готову відповідь.</p>
+            <ul>
+              <li><strong>6 способів чесної допомоги:</strong> пояснити складну тему простими словами, навести приклади до правила, скласти план переказу, перевірити, чи ти правильно зрозумів матеріал, скласти запитання для повторення та потренувати перед контрольною.</li>
+              <li><strong>5 правил доброчесності з ШІ:</strong> 1) перевіряй відповідь за підручником; 2) пиши своїми словами, не копіюй; 3) не видавай роботу ШІ за свою; 4) повідом вчителя, якщо користувався ШІ для підготовки; 5) не перекладай мислення на машину.</li>
+            </ul>`,
+            terms: [
+              { term: `Академічна доброчесність з ШІ`, def: `Використання ШІ для розуміння і тренування, а не для списування чи привласнення чужих результатів.` },
+              { term: `Самостійна перевірка`, def: `Відповідь на тестові запитання ШІ власними силами з подальшим звірянням із підручником.` }
+            ],
+            tip: `Запам'ятай: знання, які ти здобув сам, залишаються з тобою назавжди; а те, що за тебе зробив ШІ, миттєво забувається.`
+          },
+          {
+            num: 32,
+            title: `Генерація зображень за текстовим описом`,
+            pages: `с. 270–275`,
+            summary: `<p>ШІ навчився створювати картинки не з народження — його навчили на мільйонах підписаних зображень (де кіт, де море, де космонавт). За твоїм текстовим описом він поєднує знайомі образи в нову унікальну картинку.</p>
+            <ul>
+              <li><strong>Формула опису картинки:</strong> головний об'єкт + деталі й дії + кольори та освітлення + художній стиль (наприклад, <em>акварель, 3D-мультфільм, комікс, піксель-арт</em>).</li>
+              <li><strong>Типові помилки ШІ-малюнків:</strong> криві або зайві пальці на руках, безладні неіснуючі літери на вивісках, загублені або перекручені дрібні деталі. Тому кожну згенеровану ілюстрацію потрібно уважно перевірити!</li>
+            </ul>`,
+            terms: [
+              { term: `Генерація зображень`, def: `Створення штучним інтелектом нової картинки на основі текстового опису (промту).` },
+              { term: `Стиль зображення`, def: `Художня манера виконання картинки: фото, акварель, мультфільм, ескіз олівцем тощо.` }
+            ],
+            tip: `Спробуй один і той самий опис (наприклад, «кіт-космонавт») попросити намалювати у різних стилях — і порівняй результат!`
+          },
+          {
+            num: 33,
+            title: `Етика, безпека й межі ШІ`,
+            pages: `с. 276–280`,
+            summary: `<p>Усе, що ти пишеш у чат-ботах, передається через інтернет на віддалені сервери. Тому головне правило безпеки: <strong>ніколи не повідомляй ШІ особисті дані</strong>!</p>
+            <ul>
+              <li><strong>Особисті дані:</strong> повне ім'я та прізвище, домашня адреса, номер телефону, паролі, особисті фото, номер школи.</li>
+              <li><strong>Етика використання:</strong> заборонено використовувати ШІ, щоб ображати, висміювати чи створювати неправдиві фото/тексти про інших людей.</li>
+              <li><strong>5 золотих правил безпеки:</strong> 1) захищай особисті дані; 2) перевіряй відповіді за надійним джерелом; 3) не вір усьому сліпо; 4) не кривдь інших через ШІ; 5) у складній або підозрілій ситуації звернися до дорослого.</li>
+            </ul>`,
+            terms: [
+              { term: `Особисті дані`, def: `Відомості про людину (ім'я, адреса, телефон, паролі, фото, школа), які не можна розголошувати чат-ботам.` },
+              { term: `Етика ШІ`, def: `Дотримання правил поваги, безпеки та доброзичливості під час створення й поширення контенту за допомогою ШІ.` }
+            ],
+            tip: `Створюючи презентацію про правила безпеки ШІ (напр. у Canva), поділися нею з учителем за посиланням із доступом «лише перегляд».`
+          },
+          {
+            num: 34,
+            title: `Міні-проєкт «Мій помічник ШІ»`,
+            pages: `с. 281–282`,
+            summary: `<p>Наприкінці року ти об'єднуєш усі знання з інформатики у власному підсумковому міні-проєкті — компактній презентації (наприклад, у Google Презентаціях) на <strong>6 слайдів</strong>:</p>
+            <ol>
+              <li>Назва проєкту та твоє ім'я (автор).</li>
+              <li>Що таке ШІ і де ми зустрічаємо його в житті.</li>
+              <li>Твій помічник: який сервіс ШІ тобі найзручніший і чому.</li>
+              <li>Приклад твого сильного промту та отриманої відповіді.</li>
+              <li>Зображення, згенероване за твоїм описом (з перевіркою деталей).</li>
+              <li>Правила безпечної та чесної роботи з ШІ.</li>
+            </ol>
+            <p><strong>Поради до захисту:</strong> розповідай своїми словами, не читай суцільний текст зі слайда, покажи реальний приклад і будь готовий відповісти на запитання класу!</p>`,
+            terms: [
+              { term: `Міні-проєкт`, def: `Невелика самостійна підсумкова робота, що демонструє практичні навички, здобуті за рік.` },
+              { term: `Захист проєкту`, def: `Усна презентація своєї роботи однокласникам із відповідями на запитання.` }
+            ],
+            tip: `Запам'ятай головну формулу успіху: ШІ допомагає оформити ідеї, але сам проєкт створюють твоя голова та твої руки!`
+          }
+        ],
+        quiz: [
+          {
+            q: `З яких 4 основних частин складається сильний промт для чат-бота?`,
+            options: [
+              `Пароль, логін, дата, місто`,
+              `Роль, завдання, деталі, формат`,
+              `Шрифт, поля, курсор, колір`,
+              `Процесор, пам'ять, екран, миша`
+            ],
+            correct: 1,
+            explain: `Сильний промт містить Роль («хто відповідає»), Завдання («що зробити»), Деталі («для кого і про що») та Формат («список, таблиця, 3 речення»).`
+          },
+          {
+            q: `Що таке «вигадка ШІ» (галюцинація)?`,
+            options: [
+              `Вимкнення монітора`,
+              `Переконлива на вигляд, але насправді неправдива відповідь бота`,
+              `Збереження файлу на диск`,
+              `Переклад слова англійською`
+            ],
+            correct: 1,
+            explain: `ШІ може впевнено вигадувати факти, дати або неіснуючі джерела, тому важливу інформацію завжди перевіряють.`
+          },
+          {
+            q: `Які дані КАТЕГОРИЧНО заборонено вводити у запити до чат-ботів?`,
+            options: [
+              `Загадки про тварин`,
+              `Прохання пояснити правило з математики`,
+              `Особисті дані: адресу, телефон, паролі, номер школи`,
+              `Опис для малюнка кота-космонавта`
+            ],
+            correct: 2,
+            explain: `Усе написане в чат-ботах передається на чужі сервери, тому особисті дані мають залишатися в таємниці.`
+          },
+          {
+            q: `Який із наведених способів використання ШІ відповідає академічній доброчесності?`,
+            options: [
+              `Скопіювати готовий твір і здати під своїм іменем`,
+              `Попросити пояснити складну тему простими словами й скласти запитання для тренування`,
+              `Перекласти всю домашню роботу на бота і не читати її`,
+              `Повірити першій даті без перевірки`
+            ],
+            correct: 1,
+            explain: `Чесне використання ШІ — це допомога у розумінні матеріалу та тренуванні перед контрольною, а не списування.`
+          },
+          {
+            q: `Скільки орієнтовно слайдів рекомендовано для підсумкового міні-проєкту «Мій помічник ШІ»?`,
+            options: [`1 слайд`, `6 слайдів`, `45 слайдів`, `100 слайдів`],
+            correct: 1,
+            explain: `Оптимальна структура міні-проєкту — 6 зрозумілих і наочних слайдів із короткими підписами.`
+          }
+        ]
+      }
+    ];
+
+    // =========================================================================
+    // STATE MANAGEMENT (with Gemini Notebook Shim API persistence)
+    // =========================================================================
+    let appState = {
+      activeChapter: 1,
+      chapterViewMode: 'theory', // 'theory' | 'practice'
+      completedTopics: [],       // array of topic numbers [1..34]
+      quizAnswers: {},           // { "ch1_q0": selectedIndex, ... }
+      searchQuery: '',
+      // Interactive lab temporary/persisted inputs:
+      flashDriveGb: 4,
+      deviceSortAnswers: {},     // { "Клавіатура": "in", ... }
+      searchBuilder: { kw: `інформатика`, exact: `штучний інтелект`, site: `mon.gov.ua`, file: `pdf`, exclude: `` },
+      fakeCheckAnswers: {},
+      typingFixRevealed: {},
+      docPreview: { orient: `portrait`, listType: `ol`, header: `Інформатика, 5 клас` },
+      scratchQueue: [`move`, `turn`, `move`, `turn`, `move`, `turn`, `move`, `turn`],
+      scratchAgeInput: 10,
+      rasterZoom: 250,
+      layerOrder: [`circle`, `triangle`, `star`],
+      promptBuilder: {
+        role: `Досвідчений учитель інформатики`,
+        task: `Поясни простими словами, що таке алгоритм`,
+        details: `Для учня 5 класу, з прикладом із щоденного життя`,
+        format: `3 короткі пункти списком`
+      },
+      ethicsAnswers: {}
+    };
+
+    function sanitizeState(raw) {
+      if (!raw || typeof raw !== 'object') return;
+      if (typeof raw.activeChapter === 'number' && raw.activeChapter >= 1 && raw.activeChapter <= 6) {
+        appState.activeChapter = raw.activeChapter;
+      }
+      if (raw.chapterViewMode === 'theory' || raw.chapterViewMode === 'practice') {
+        appState.chapterViewMode = raw.chapterViewMode;
+      }
+      if (Array.isArray(raw.completedTopics)) {
+        appState.completedTopics = raw.completedTopics.filter(function(n) { return typeof n === 'number'; });
+      }
+      if (raw.quizAnswers && typeof raw.quizAnswers === 'object') {
+        appState.quizAnswers = raw.quizAnswers;
+      }
+      if (typeof raw.flashDriveGb === 'number') appState.flashDriveGb = raw.flashDriveGb;
+      if (raw.deviceSortAnswers && typeof raw.deviceSortAnswers === 'object') appState.deviceSortAnswers = raw.deviceSortAnswers;
+      if (raw.searchBuilder && typeof raw.searchBuilder === 'object') appState.searchBuilder = Object.assign(appState.searchBuilder, raw.searchBuilder);
+      if (raw.fakeCheckAnswers && typeof raw.fakeCheckAnswers === 'object') appState.fakeCheckAnswers = raw.fakeCheckAnswers;
+      if (raw.typingFixRevealed && typeof raw.typingFixRevealed === 'object') appState.typingFixRevealed = raw.typingFixRevealed;
+      if (raw.docPreview && typeof raw.docPreview === 'object') appState.docPreview = Object.assign(appState.docPreview, raw.docPreview);
+      if (Array.isArray(raw.scratchQueue)) appState.scratchQueue = raw.scratchQueue.slice(0, 16);
+      if (typeof raw.scratchAgeInput === 'number') appState.scratchAgeInput = raw.scratchAgeInput;
+      if (typeof raw.rasterZoom === 'number') appState.rasterZoom = raw.rasterZoom;
+      if (Array.isArray(raw.layerOrder) && raw.layerOrder.length === 3) appState.layerOrder = raw.layerOrder;
+      if (raw.promptBuilder && typeof raw.promptBuilder === 'object') appState.promptBuilder = Object.assign(appState.promptBuilder, raw.promptBuilder);
+      if (raw.ethicsAnswers && typeof raw.ethicsAnswers === 'object') appState.ethicsAnswers = raw.ethicsAnswers;
+    }
+
+    async function persistState() {
+      const indicator = document.getElementById('save-indicator');
+      if (window.notebookAppApi && typeof window.notebookAppApi.setAppState === 'function') {
+        try {
+          await window.notebookAppApi.setAppState(appState);
+          if (indicator) indicator.textContent = `Прогрес збережено`;
+        } catch (err) {
+          if (indicator) indicator.textContent = `Не вдалося зберегти стан`;
+        }
+      }
+    }
+
+    // =========================================================================
+    // RENDERING HELPERS
+    // =========================================================================
+    function refreshIcons() {
+      if (window.lucide && typeof window.lucide.createIcons === 'function') {
+        window.lucide.createIcons();
+      }
+    }
+
+    function updateMetrics() {
+      const totalTopics = 34;
+      const doneCount = appState.completedTopics.length;
+      const topicsEl = document.getElementById('metric-topics-val');
+      const topicsBar = document.getElementById('metric-topics-bar');
+      if (topicsEl) topicsEl.textContent = `${doneCount} / ${totalTopics}`;
+      if (topicsBar) topicsBar.style.width = `${Math.round((doneCount / totalTopics) * 100)}%`;
+
+      let correctCount = 0;
+      const totalQuiz = 30;
+      CHAPTERS.forEach(function(ch) {
+        ch.quiz.forEach(function(item, idx) {
+          const key = `ch${ch.id}_q${idx}`;
+          if (appState.quizAnswers[key] === item.correct) correctCount++;
+        });
+      });
+
+      const quizEl = document.getElementById('metric-quiz-val');
+      const quizBar = document.getElementById('metric-quiz-bar');
+      if (quizEl) quizEl.textContent = `${correctCount} / ${totalQuiz}`;
+      if (quizBar) quizBar.style.width = `${Math.round((correctCount / totalQuiz) * 100)}%`;
+
+      const rankEl = document.getElementById('metric-rank-val');
+      const rankSub = document.getElementById('metric-rank-sub');
+      const totalScore = doneCount + correctCount;
+      if (rankEl && rankSub) {
+        if (totalScore === 0) {
+          rankEl.textContent = `Старт`;
+          rankSub.textContent = `Позначай теми та проходь тести`;
+        } else if (totalScore < 15) {
+          rankEl.textContent = `Дослідник`;
+          rankSub.textContent = `Гарний початок! Продовжуй далі`;
+        } else if (totalScore < 35) {
+          rankEl.textContent = `Цифровий профі`;
+          rankSub.textContent = `Ти впевнено опановуєш курс`;
+        } else if (totalScore < 58) {
+          rankEl.textContent = `ІТ-майстер`;
+          rankSub.textContent = `Більше половини завдань виконано!`;
+        } else {
+          rankEl.textContent = `Експерт 5 класу`;
+          rankSub.textContent = `Увесь курс інформатики підкорено!`;
+        }
+      }
+    }
+
+    function renderChapterTabs() {
+      const wrap = document.getElementById('chapter-tabs');
+      if (!wrap) return;
+      let html = ``;
+      CHAPTERS.forEach(function(ch) {
+        const isActive = !appState.searchQuery && appState.activeChapter === ch.id;
+        const doneInCh = ch.topics.filter(function(t) {
+          return appState.completedTopics.indexOf(t.num) !== -1;
+        }).length;
+        html += `
+          <button
+            type="button"
+            class="chapter-tab ${isActive ? 'active' : ''}"
+            onclick="selectChapter(${ch.id})"
+            aria-pressed="${isActive ? 'true' : 'false'}"
+          >
+            <i data-lucide="${ch.icon}" aria-hidden="true" style="width:17px;height:17px;"></i>
+            <span>${ch.shortTitle}</span>
+            <span class="tab-count">${doneInCh}/${ch.topics.length}</span>
+          </button>
+        `;
+      });
+      wrap.innerHTML = html;
+      refreshIcons();
+    }
+
+    function renderTopicCard(topic) {
+      const isDone = appState.completedTopics.indexOf(topic.num) !== -1;
+      let termsHtml = ``;
+      topic.terms.forEach(function(item) {
+        termsHtml += `
+          <div class="term-item">
+            <span class="term-name">${item.term}:</span> ${item.def}
+          </div>
+        `;
+      });
+
+      return `
+        <article class="topic-card" id="topic-card-${topic.num}">
+          <div class="topic-header">
+            <div>
+              <div class="topic-meta">
+                <span class="badge">Тема ${topic.num}</span>
+                <span class="page-tag">${topic.pages}</span>
+              </div>
+              <h3 class="topic-title">${topic.title}</h3>
+            </div>
+            <button
+              type="button"
+              class="done-btn ${isDone ? 'is-done' : ''}"
+              onclick="toggleTopicDone(${topic.num})"
+              aria-pressed="${isDone ? 'true' : 'false'}"
+            >
+              <i data-lucide="${isDone ? 'check-circle-2' : 'circle'}" aria-hidden="true" style="width:17px;height:17px;"></i>
+              ${isDone ? 'Вивчено' : 'Позначити вивченою'}
+            </button>
+          </div>
+
+          <div class="topic-body">
+            <div class="theory-prose">
+              ${topic.summary}
+            </div>
+            <aside class="terms-panel" aria-label="Ключові поняття теми ${topic.num}">
+              <p class="terms-heading">
+                <i data-lucide="key-round" aria-hidden="true" style="width:16px;height:16px;"></i>
+                Ключові поняття
+              </p>
+              <div class="term-list">${termsHtml}</div>
+            </aside>
+          </div>
+
+          ${topic.tip ? `
+            <div class="tip-box">
+              <i data-lucide="lightbulb" aria-hidden="true" style="width:18px;height:18px;flex-shrink:0;margin-top:2px;"></i>
+              <div><strong>На замітку:</strong> ${topic.tip}</div>
+            </div>
+          ` : ``}
+        </article>
+      `;
+    }
+
+    function renderChapterQuiz(ch) {
+      let score = 0;
+      let answered = 0;
+      ch.quiz.forEach(function(q, idx) {
+        const key = `ch${ch.id}_q${idx}`;
+        if (typeof appState.quizAnswers[key] === 'number') {
+          answered++;
+          if (appState.quizAnswers[key] === q.correct) score++;
+        }
+      });
+
+      let questionsHtml = ``;
+      ch.quiz.forEach(function(item, idx) {
+        const key = `ch${ch.id}_q${idx}`;
+        const chosen = appState.quizAnswers[key];
+        const hasAnswered = typeof chosen === 'number';
+
+        let optsHtml = ``;
+        item.options.forEach(function(optText, optIdx) {
+          let cls = `quiz-opt`;
+          if (hasAnswered) {
+            if (optIdx === item.correct) cls += ` correct`;
+            else if (optIdx === chosen) cls += ` wrong`;
+          }
+          optsHtml += `
+            <button
+              type="button"
+              class="${cls}"
+              onclick="answerQuiz(${ch.id}, ${idx}, ${optIdx})"
+            >
+              <span>${String.fromCharCode(65 + optIdx)}.</span>
+              <span>${optText}</span>
+            </button>
+          `;
+        });
+
+        let fbHtml = ``;
+        if (hasAnswered) {
+          const isOk = chosen === item.correct;
+          fbHtml = `
+            <div class="quiz-feedback ${isOk ? 'ok' : 'bad'}">
+              ${isOk ? 'Чудово! ' : 'Зверни увагу: '}${item.explain}
+            </div>
+          `;
+        }
+
+        questionsHtml += `
+          <div class="quiz-question-box">
+            <p class="quiz-q-title">${idx + 1}. ${item.q}</p>
+            <div class="quiz-options">${optsHtml}</div>
+            ${fbHtml}
+          </div>
+        `;
+      });
+
+      return `
+        <section class="quiz-card" aria-label="Тест до розділу ${ch.id}">
+          <div class="lab-header">
+            <div>
+              <span class="badge badge-grape">Перевір себе</span>
+              <h3 class="lab-title" style="margin-top:0.35rem;">Тест до розділу ${ch.id} (${answered}/5 відповід., бали: <em>${score}</em>)</h3>
+            </div>
+            ${answered > 0 ? `
+              <button type="button" class="btn btn-soft btn-sm" onclick="resetChapterQuiz(${ch.id})">
+                Пройти тест ще раз
+              </button>
+            ` : ``}
+          </div>
+          ${questionsHtml}
+        </section>
+      `;
+    }
+
+    // =========================================================================
+    // CHAPTER INTERACTIVE LABS (1..6)
+    // =========================================================================
+    function renderChapter1Lab() {
+      const gb = appState.flashDriveGb;
+      const totalMb = gb * 1024;
+      const maxMovies = Math.floor(gb / 2.5);
+      const maxSongs = Math.floor(totalMb / 5);
+      const maxPhotos = Math.floor((totalMb * 1024) / 80);
+
+      const devices = [
+        { name: `Клавіатура`, target: `in`, label: `Введення` },
+        { name: `Монітор`, target: `out`, label: `Виведення` },
+        { name: `Процесор (CPU)`, target: `sys`, label: `Опрацювання / Системний блок` },
+        { name: `Принтер`, target: `out`, label: `Виведення` },
+        { name: `Мікрофон`, target: `in`, label: `Введення` },
+        { name: `SSD-накопичувач`, target: `sys`, label: `Зберігання / Системний блок` }
+      ];
+
+      let devHtml = ``;
+      devices.forEach(function(d) {
+        const chosen = appState.deviceSortAnswers[d.name];
+        const isCorrect = chosen === d.target;
+        devHtml += `
+          <div class="term-item" style="display:grid;gap:6px;">
+            <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;">
+              <strong>${d.name}</strong>
+              ${chosen ? `<span class="status-pill ${isCorrect ? 'status-ok' : 'status-bad'}">${isCorrect ? 'Вірно: ' + d.label : 'Спробуй іншу групу'}</span>` : ``}
+            </div>
+            <div class="chip-row">
+              <button type="button" class="chip ${chosen === 'in' ? 'selected' : ''}" onclick="sortDevice('${d.name}', 'in')">Введення</button>
+              <button type="button" class="chip ${chosen === 'sys' ? 'selected' : ''}" onclick="sortDevice('${d.name}', 'sys')">Системний блок</button>
+              <button type="button" class="chip ${chosen === 'out' ? 'selected' : ''}" onclick="sortDevice('${d.name}', 'out')">Виведення</button>
+            </div>
+          </div>
+        `;
+      });
+
+      return `
+        <section class="lab-card" aria-label="Інтерактивна лабораторія Розділу 1">
+          <div class="lab-header">
+            <div>
+              <span class="badge badge-sky">Практикум до Теми 1 і Теми 2</span>
+              <h3 class="lab-title" style="margin-top:0.35rem;">Калькулятор флешки та <em>сортувальник</em> пристроїв</h3>
+            </div>
+          </div>
+
+          <div class="lab-split">
+            <div class="lab-well">
+              <strong>1. Скільки файлів поміститься на флешку? (Практична робота, с. 14)</strong>
+              <div class="chip-row">
+                ${[1, 4, 16, 32, 64].map(function(size) {
+                  return `<button type="button" class="chip ${gb === size ? 'selected' : ''}" onclick="setFlashGb(${size})">${size} ГБ</button>`;
+                }).join(``)}
+              </div>
+              <table class="nice-table">
+                <thead>
+                  <tr><th>Тип файлу</th><th>Розмір 1 файлу</th><th>Максимум на ${gb} ГБ</th></tr>
+                </thead>
+                <tbody>
+                  <tr><td>Фільм (.avi)</td><td>2,5 ГБ</td><td><strong>${maxMovies}</strong> шт.</td></tr>
+                  <tr><td>Звук (.mp3)</td><td>5 МБ</td><td><strong>${maxSongs.toLocaleString('uk-UA')}</strong> шт.</td></tr>
+                  <tr><td>Картинка (.jpeg)</td><td>80 КБ</td><td><strong>${maxPhotos.toLocaleString('uk-UA')}</strong> шт.</td></tr>
+                </tbody>
+              </table>
+              <div class="tip-box">
+                <i data-lucide="info" aria-hidden="true" style="width:18px;height:18px;flex-shrink:0;"></i>
+                <div>Пам'ятай формулу з підручника: <strong>${gb} ГБ = ${totalMb.toLocaleString('uk-UA')} МБ = ${(totalMb * 1024).toLocaleString('uk-UA')} КБ</strong>.</div>
+              </div>
+            </div>
+
+            <div class="lab-well">
+              <strong>2. Розподіли пристрої комп'ютера за групами:</strong>
+              ${devHtml}
+            </div>
+          </div>
+        </section>
+      `;
+    }
+
+    function renderChapter2Lab() {
+      const sb = appState.searchBuilder;
+      const parts = [];
+      if (sb.kw.trim()) parts.push(sb.kw.trim());
+      if (sb.exact.trim()) parts.push(`"${sb.exact.trim()}"`);
+      if (sb.site.trim()) parts.push(`site:${sb.site.trim()}`);
+      if (sb.file) parts.push(`filetype:${sb.file}`);
+      if (sb.exclude.trim()) parts.push(`-${sb.exclude.trim().split(' ')[0]}`);
+      const builtQuery = parts.join(' ') || `введіть хоча б один параметр…`;
+
+      const cases = [
+        {
+          id: `c1`,
+          text: `SMS: «Ваш акаунт заблоковано! Терміново перейдіть на сайт-копію privat-bonus-free.example.com і введіть PIN-код»`,
+          correct: `danger`,
+          explain: `Це класичний фішинг! Офіційні сервіси ніколи не просять PIN-код чи пароль за підозрілими посиланнями.`
+        },
+        {
+          id: `c2`,
+          text: `Стаття на сайті Міністерства освіти (mon.gov.ua) із датою публікації, автором і посиланням на документ.`,
+          correct: `safe`,
+          explain: `Надійне джерело: офіційний домен .gov.ua, вказані дата та автор матеріалу.`
+        },
+        {
+          id: `c3`,
+          text: `Заголовок: «ШОК!!! Цю таємницю приховували 500 років! Поширте всім друзям просто зараз!»`,
+          correct: `danger`,
+          explain: `Емоційний тиск, слова «ШОК», відсутність фактів і заклики до поширення — головні ознаки фейку.`
+        },
+        {
+          id: `c4`,
+          text: `Лист від незнайомця: «Ви виграли смартфон, надішліть номер телефону та адресу доставки».`,
+          correct: `danger`,
+          explain: `Спам і виманювання особистих даних. Не відповідайте та не повідомляйте адресу незнайомцям.`
+        }
+      ];
+
+      let casesHtml = ``;
+      cases.forEach(function(c) {
+        const ans = appState.fakeCheckAnswers[c.id];
+        const ok = ans === c.correct;
+        casesHtml += `
+          <div class="term-item" style="display:grid;gap:8px;">
+            <div>${c.text}</div>
+            <div class="chip-row">
+              <button type="button" class="chip ${ans === 'safe' ? 'selected' : ''}" onclick="checkFakeCase('${c.id}', 'safe')">Надійно</button>
+              <button type="button" class="chip ${ans === 'danger' ? 'selected' : ''}" onclick="checkFakeCase('${c.id}', 'danger')">Фейк / Фішинг / Спам</button>
+            </div>
+            ${ans ? `<span class="status-pill ${ok ? 'status-ok' : 'status-bad'}">${ok ? 'Вірно! ' : 'Помилка: '}${c.explain}</span>` : ``}
+          </div>
+        `;
+      });
+
+      return `
+        <section class="lab-card" aria-label="Інтерактивна лабораторія Розділу 2">
+          <div class="lab-header">
+            <div>
+              <span class="badge badge-sky">Практикум до Тем 6–8</span>
+              <h3 class="lab-title" style="margin-top:0.35rem;">Конструктор <em>Google-запитів</em> і детектор фейків</h3>
+            </div>
+          </div>
+
+          <div class="lab-split">
+            <div class="lab-well">
+              <strong>1. Збери точний пошуковий запит із операторами:</strong>
+              <div class="field-group">
+                <label class="field-label" for="sb-kw">Ключове слово</label>
+                <input id="sb-kw" class="input-pill" value="${sb.kw}" oninput="updateSearchBuilder('kw', this.value)">
+              </div>
+              <div class="field-group">
+                <label class="field-label" for="sb-exact">Точний вислів (візьметься в лапки "…")</label>
+                <input id="sb-exact" class="input-pill" value="${sb.exact}" oninput="updateSearchBuilder('exact', this.value)">
+              </div>
+              <div class="field-group">
+                <label class="field-label" for="sb-site">Шукати лише на сайті (site:)</label>
+                <input id="sb-site" class="input-pill" value="${sb.site}" oninput="updateSearchBuilder('site', this.value)">
+              </div>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:var(--space-sm);align-items:end;">
+                <div class="field-group">
+                  <label class="field-label" for="sb-file">Тип файлу</label>
+                  <select id="sb-file" class="select-pill" onchange="updateSearchBuilder('file', this.value)">
+                    <option value="pdf" ${sb.file === 'pdf' ? 'selected' : ''}>PDF (.pdf)</option>
+                    <option value="docx" ${sb.file === 'docx' ? 'selected' : ''}>Word (.docx)</option>
+                    <option value="" ${sb.file === '' ? 'selected' : ''}>Будь-який</option>
+                  </select>
+                </div>
+                <div class="field-group">
+                  <label class="field-label" for="sb-exc">Виключити слово (-)</label>
+                  <input id="sb-exc" class="input-pill" value="${sb.exclude}" placeholder="напр. реклама" oninput="updateSearchBuilder('exclude', this.value)">
+                </div>
+              </div>
+              <div class="tip-box">
+                <i data-lucide="search" aria-hidden="true" style="width:18px;height:18px;flex-shrink:0;"></i>
+                <div><strong>Готовий запит:</strong> <span data-built-query="true">${builtQuery}</span></div>
+              </div>
+            </div>
+
+            <div class="lab-well">
+              <strong>2. Перевір ситуацію на надійність і безпеку:</strong>
+              ${casesHtml}
+            </div>
+          </div>
+        </section>
+      `;
+    }
+
+    function renderChapter3Lab() {
+      const sentences = [
+        {
+          id: `t1`,
+          bad: `Мій улюблений веб - сайт відкрився без помилок .`,
+          good: `Мій улюблений веб-сайт відкрився без помилок.`,
+          rule: `Дефіс у слові пишуть без пропусків, а крапку — впритул до останнього слова.`
+        },
+        {
+          id: `t2`,
+          bad: `Інформатика—цікавий урок , на якому ми створюємо проєкти.`,
+          good: `Інформатика — цікавий урок, на якому ми створюємо проєкти.`,
+          rule: `Перед тире і після нього завжди ставлять пропуск, а кому пишуть одразу після слова без пропуску перед нею.`
+        },
+        {
+          id: `t3`,
+          bad: `У класі  працюють   двадцять комп'ютерів.`,
+          good: `У класі працюють двадцять комп'ютерів.`,
+          rule: `Між словами завжди має бути лише один пропуск.`
+        }
+      ];
+
+      let sentHtml = ``;
+      sentences.forEach(function(s) {
+        const fixed = !!appState.typingFixRevealed[s.id];
+        sentHtml += `
+          <div class="term-item" style="display:grid;gap:8px;">
+            <div>${fixed ? `<span class="status-pill status-ok">Виправлено:</span> <strong>${s.good}</strong>` : `<span class="status-pill status-warn">Знайди помилку:</span> ${s.bad}`}</div>
+            <button type="button" class="btn btn-soft btn-sm" style="justify-self:start;" onclick="toggleTypingFix('${s.id}')">
+              ${fixed ? 'Показати з помилкою' : 'Виправити за правилами'}
+            </button>
+            ${fixed ? `<div style="font-size:0.86rem;color:var(--on-surface-variant);">${s.rule}</div>` : ``}
+          </div>
+        `;
+      });
+
+      const dp = appState.docPreview;
+      const isLand = dp.orient === 'landscape';
+      const listItems = `<li>Введення та редагування тексту</li><li>Оформлення списків і таблиць</li><li>Налаштування полів сторінки</li>`;
+
+      return `
+        <section class="lab-card" aria-label="Інтерактивна лабораторія Розділу 3">
+          <div class="lab-header">
+            <div>
+              <span class="badge badge-sky">Практикум до Тем 10, 11, 13</span>
+              <h3 class="lab-title" style="margin-top:0.35rem;">Тренажер набору тексту та <em>макет сторінки</em></h3>
+            </div>
+          </div>
+
+          <div class="lab-split">
+            <div class="lab-well">
+              <strong>1. Виправ типові помилки введення тексту:</strong>
+              ${sentHtml}
+            </div>
+
+            <div class="lab-well">
+              <strong>2. Налаштуй параметри аркуша і список (Тема 11 і 13):</strong>
+              <div class="chip-row">
+                <button type="button" class="chip ${dp.orient === 'portrait' ? 'selected' : ''}" onclick="setDocPreview('orient', 'portrait')">Книжкова орієнтація</button>
+                <button type="button" class="chip ${dp.orient === 'landscape' ? 'selected' : ''}" onclick="setDocPreview('orient', 'landscape')">Альбомна орієнтація</button>
+              </div>
+              <div class="chip-row">
+                <button type="button" class="chip ${dp.listType === 'ol' ? 'selected' : ''}" onclick="setDocPreview('listType', 'ol')">Нумерований список</button>
+                <button type="button" class="chip ${dp.listType === 'ul' ? 'selected' : ''}" onclick="setDocPreview('listType', 'ul')">Маркований список</button>
+              </div>
+              <div class="field-group">
+                <label class="field-label" for="dp-header">Текст верхнього колонтитула</label>
+                <input id="dp-header" class="input-pill" value="${dp.header}" oninput="setDocPreview('header', this.value)">
+              </div>
+              <div style="background:var(--surface-container-low);border:2px solid var(--outline-variant);border-radius:var(--rounded);padding:var(--space-md);margin:0 auto;width:${isLand ? '100%' : '250px'};min-height:${isLand ? '170px' : '230px'};display:flex;flex-direction:column;justify-content:space-between;transition:width var(--dur-short) var(--ease-out);">
+                <div>
+                  <div style="font-size:0.75rem;color:var(--on-surface-variant);border-bottom:1px solid var(--outline-variant);padding-bottom:4px;margin-bottom:8px;">
+                    ${dp.header || 'Без колонтитула'}
+                  </div>
+                  <strong style="font-size:0.9rem;">Етапи роботи над документом:</strong>
+                  ${dp.listType === 'ol' ? `<ol style="margin:6px 0;padding-left:1.2rem;font-size:0.85rem;">${listItems}</ol>` : `<ul style="margin:6px 0;padding-left:1.2rem;font-size:0.85rem;">${listItems}</ul>`}
+                </div>
+                <div style="text-align:right;font-size:0.75rem;color:var(--primary);font-weight:800;">Стор. 1</div>
+              </div>
+            </div>
+          </div>
+        </section>
+      `;
+    }
+
+    function simulateScratch(queue) {
+      let x = 0;
+      let y = 0;
+      let angle = 0; // 0 = right, 90 = down, 180 = left, 270 = up
+      let speech = ``;
+      const points = [{ x: 0, y: 0 }];
+      queue.forEach(function(cmd) {
+        if (cmd === 'move') {
+          const rad = (angle * Math.PI) / 180;
+          x = Math.max(-130, Math.min(130, Math.round(x + Math.cos(rad) * 45)));
+          y = Math.max(-85, Math.min(85, Math.round(y + Math.sin(rad) * 45)));
+          points.push({ x: x, y: y });
+        } else if (cmd === 'turn') {
+          angle = (angle + 90) % 360;
+        } else if (cmd === 'turn45') {
+          angle = (angle + 45) % 360;
+        } else if (cmd === 'say') {
+          speech = `Привіт, 5 класе!`;
+        }
+      });
+      return { x: x, y: y, angle: angle, speech: speech, points: points };
+    }
+
+    function renderChapter4Lab() {
+      const sim = simulateScratch(appState.scratchQueue);
+      const pathD = sim.points.map(function(pt, i) {
+        return `${i === 0 ? 'M' : 'L'} ${160 + pt.x} ${110 + pt.y}`;
+      }).join(' ');
+
+      const blockLabels = {
+        move: { text: `перемістити на 45 кроків`, cls: `blk-motion` },
+        turn: { text: `поворот ↻ 90°`, cls: `blk-motion` },
+        turn45: { text: `поворот ↻ 45°`, cls: `blk-motion` },
+        say: { text: `говорити "Привіт, 5 класе!"`, cls: `blk-looks` }
+      };
+
+      const age = Number(appState.scratchAgeInput) || 0;
+      let ageCategory = ``;
+      if (age < 6) ageCategory = `Дошкільний вік (< 6)`;
+      else if (age <= 17) ageCategory = `Шкільний вік (6–17 років)`;
+      else ageCategory = `Дорослий вік (18+)`;
+
+      return `
+        <section class="lab-card" aria-label="Інтерактивна лабораторія Розділу 4">
+          <div class="lab-header">
+            <div>
+              <span class="badge badge-sky">Практикум до Тем 15–24</span>
+              <h3 class="lab-title" style="margin-top:0.35rem;">Міні-симулятор <em>Scratch</em>: узори та розгалуження</h3>
+            </div>
+          </div>
+
+          <div class="lab-split">
+            <div class="lab-well">
+              <strong>1. Склади алгоритм для спрайта з олівцем:</strong>
+              <div class="chip-row">
+                <button type="button" class="scratch-block-btn blk-motion" onclick="addScratchBlock('move')">+ Перемістити 45</button>
+                <button type="button" class="scratch-block-btn blk-motion" onclick="addScratchBlock('turn')">+ Поворот 90°</button>
+                <button type="button" class="scratch-block-btn blk-motion" onclick="addScratchBlock('turn45')">+ Поворот 45°</button>
+                <button type="button" class="scratch-block-btn blk-looks" onclick="addScratchBlock('say')">+ Говорити</button>
+              </div>
+              <div class="chip-row">
+                <button type="button" class="btn btn-soft btn-sm" onclick="applyScratchPreset('square')">Пресет: Цикл Квадрат</button>
+                <button type="button" class="btn btn-soft btn-sm" onclick="applyScratchPreset('octagon')">Пресет: Узор 8-кутник</button>
+                <button type="button" class="btn btn-quiet btn-sm" onclick="clearScratchQueue()">Очистити</button>
+              </div>
+
+              <div class="script-queue" aria-label="Послідовність команд">
+                ${appState.scratchQueue.length === 0 ? `<span style="color:var(--on-surface-variant);font-size:0.88rem;">Додай блоки зверху, щоб побачити шлях спрайта!</span>` : appState.scratchQueue.map(function(b) {
+                  const info = blockLabels[b] || blockLabels.move;
+                  return `<span class="scratch-block-btn ${info.cls}" style="cursor:default;font-size:0.78rem;min-height:28px;padding:3px 10px;">${info.text}</span>`;
+                }).join(``)}
+              </div>
+
+              <div class="scratch-stage">
+                <svg viewBox="0 0 320 220" width="100%" height="220" role="img" aria-label="Сцена виконавця Scratch">
+                  <line x1="160" y1="0" x2="160" y2="220" stroke="var(--outline-variant)" stroke-dasharray="4 4" />
+                  <line x1="0" y1="110" x2="320" y2="110" stroke="var(--outline-variant)" stroke-dasharray="4 4" />
+                  <path d="${pathD}" fill="none" stroke="var(--primary)" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" />
+                  <g transform="translate(${160 + sim.x}, ${110 + sim.y}) rotate(${sim.angle})">
+                    <circle cx="0" cy="0" r="14" fill="var(--secondary)" />
+                    <polygon points="10,-5 20,0 10,5" fill="var(--primary-container)" />
+                    <circle cx="4" cy="-4" r="2.5" fill="var(--on-primary)" />
+                    <circle cx="4" cy="4" r="2.5" fill="var(--on-primary)" />
+                  </g>
+                  ${sim.speech ? `
+                    <g transform="translate(${Math.min(200, Math.max(10, 160 + sim.x - 40))}, ${Math.max(25, 110 + sim.y - 38)})">
+                      <rect x="0" y="0" width="128" height="24" rx="12" fill="var(--primary-container)" />
+                      <text x="64" y="16" text-anchor="middle" font-size="11" font-weight="800" fill="var(--on-primary-container)">${sim.speech}</text>
+                    </g>
+                  ` : ``}
+                </svg>
+              </div>
+              <div style="font-size:0.88rem;font-weight:700;color:var(--on-surface-variant);">
+                Координати спрайта: <code>x: ${sim.x}</code>, <code>y: ${-sim.y}</code>, напрямок: <code>${sim.angle}°</code>
+              </div>
+            </div>
+
+            <div class="lab-well">
+              <strong>2. Перевір алгоритм із розгалуженням (Тема 19):</strong>
+              <div class="field-group">
+                <label class="field-label" for="scratch-age-in">Введіть вік (років):</label>
+                <input id="scratch-age-in" type="number" min="1" max="99" class="input-pill" value="${age}" oninput="setScratchAge(this.value)">
+              </div>
+              <div class="term-item">
+                <div><code>Якщо вік &lt; 6 то</code> → Дошкільний вік ${age < 6 ? '<span class="status-pill status-ok">ІСТИНА</span>' : '<span class="status-pill status-warn">ХИБНО</span>'}</div>
+                <div style="margin-top:6px;"><code>Інакше якщо вік &le; 17 то</code> → Шкільний вік ${age >= 6 && age <= 17 ? '<span class="status-pill status-ok">ІСТИНА</span>' : ''}</div>
+                <div style="margin-top:6px;"><code>Інакше</code> → Дорослий вік ${age > 17 ? '<span class="status-pill status-ok">ІСТИНА</span>' : ''}</div>
+              </div>
+              <div class="tip-box">
+                <i data-lucide="git-branch" aria-hidden="true" style="width:18px;height:18px;flex-shrink:0;"></i>
+                <div><strong>Результат виконання:</strong> ${ageCategory}</div>
+              </div>
+            </div>
+          </div>
+        </section>
+      `;
+    }
+
+    function renderChapter5Lab() {
+      const zoom = appState.rasterZoom;
+      const scaleFactor = zoom / 100;
+      const order = appState.layerOrder;
+
+      const shapeLabels = {
+        circle: { name: `Коло`, color: `var(--data-1)` },
+        triangle: { name: `Трикутник`, color: `var(--data-2)` },
+        star: { name: `Ромб / Зірка`, color: `var(--data-3)` }
+      };
+
+      // Build raster 8x8 pixel grid for circle approximation
+      const grid = [
+        [0,0,1,1,1,1,0,0],
+        [0,1,1,1,1,1,1,0],
+        [1,1,1,0,0,1,1,1],
+        [1,1,0,0,0,0,1,1],
+        [1,1,0,0,0,0,1,1],
+        [1,1,1,0,0,1,1,1],
+        [0,1,1,1,1,1,1,0],
+        [0,0,1,1,1,1,0,0]
+      ];
+      let pixelsSvg = ``;
+      for (let r = 0; r < 8; r++) {
+        for (let c = 0; c < 8; c++) {
+          if (grid[r][c] === 1) {
+            pixelsSvg += `<rect x="${c * 10}" y="${r * 10}" width="10" height="10" fill="var(--primary)" />`;
+          }
+        }
+      }
+
+      let layerShapesSvg = ``;
+      order.forEach(function(key, idx) {
+        const offset = idx * 24;
+        if (key === 'circle') {
+          layerShapesSvg += `<circle cx="${80 + offset}" cy="90" r="46" fill="var(--data-1)" stroke="var(--surface-container-low)" stroke-width="3" />`;
+        } else if (key === 'triangle') {
+          layerShapesSvg += `<polygon points="${80 + offset},36 ${34 + offset},132 ${126 + offset},132" fill="var(--data-2)" stroke="var(--surface-container-low)" stroke-width="3" />`;
+        } else {
+          layerShapesSvg += `<polygon points="${80 + offset},35 ${122 + offset},85 ${80 + offset},135 ${38 + offset},85" fill="var(--data-3)" stroke="var(--surface-container-low)" stroke-width="3" />`;
+        }
+      });
+
+      return `
+        <section class="lab-card" aria-label="Інтерактивна лабораторія Розділу 5">
+          <div class="lab-header">
+            <div>
+              <span class="badge badge-sky">Практикум до Тем 25–26</span>
+              <h3 class="lab-title" style="margin-top:0.35rem;">Лупа <em>Растр vs Вектор</em> та керування шарами</h3>
+            </div>
+          </div>
+
+          <div class="lab-split">
+            <div class="lab-well">
+              <div class="field-group">
+                <label class="field-label" for="zoom-slider">1. Збільшення масштабу: <strong>${zoom}%</strong></label>
+                <input id="zoom-slider" type="range" min="100" max="600" step="50" value="${zoom}" oninput="setRasterZoom(this.value)">
+              </div>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:var(--space-md);">
+                <div style="background:var(--surface-container-low);border-radius:var(--rounded);padding:var(--space-sm);text-align:center;overflow:hidden;">
+                  <div style="font-weight:800;font-size:0.85rem;margin-bottom:6px;">Растрова (пікселі)</div>
+                  <div style="height:130px;display:grid;place-items:center;overflow:hidden;">
+                    <svg viewBox="0 0 80 80" width="${Math.round(36 * scaleFactor)}" height="${Math.round(36 * scaleFactor)}" shape-rendering="crispEdges" role="img" aria-label="Растрове кільце при збільшенні">
+                      ${pixelsSvg}
+                    </svg>
+                  </div>
+                </div>
+                <div style="background:var(--surface-container-low);border-radius:var(--rounded);padding:var(--space-sm);text-align:center;overflow:hidden;">
+                  <div style="font-weight:800;font-size:0.85rem;margin-bottom:6px;">Векторна (формули)</div>
+                  <div style="height:130px;display:grid;place-items:center;overflow:hidden;">
+                    <svg viewBox="0 0 80 80" width="${Math.round(36 * scaleFactor)}" height="${Math.round(36 * scaleFactor)}" role="img" aria-label="Векторне кільце при збільшенні">
+                      <circle cx="40" cy="40" r="28" fill="none" stroke="var(--secondary)" stroke-width="14" />
+                    </svg>
+                  </div>
+                </div>
+              </div>
+              <div style="font-size:0.88rem;color:var(--on-surface-variant);">
+                Бачиш різницю? На 600% растр розпадається на сходинки пікселів, а вектор лишається ідеально гладким!
+              </div>
+            </div>
+
+            <div class="lab-well">
+              <strong>2. Змінюй порядок шарів у LibreOffice Draw:</strong>
+              <div style="background:var(--surface-container-low);border-radius:var(--rounded);padding:var(--space-sm);display:grid;place-items:center;">
+                <svg viewBox="0 0 240 170" width="240" height="170" role="img" aria-label="Три фігури в шарах">
+                  ${layerShapesSvg}
+                </svg>
+              </div>
+              <div style="display:grid;gap:6px;">
+                ${order.slice().reverse().map(function(key, revIdx) {
+                  const realIdx = order.length - 1 - revIdx;
+                  const info = shapeLabels[key];
+                  return `
+                    <div class="term-item" style="display:flex;justify-content:space-between;align-items:center;gap:8px;">
+                      <span><strong>Шар ${realIdx + 1}:</strong> ${info.name}</span>
+                      <div class="chip-row">
+                        <button type="button" class="btn btn-soft btn-sm" onclick="bringShapeFront('${key}')">На передній план</button>
+                      </div>
+                    </div>
+                  `;
+                }).join(``)}
+              </div>
+            </div>
+          </div>
+        </section>
+      `;
+    }
+
+    function renderChapter6Lab() {
+      const pb = appState.promptBuilder;
+      const filledCount = [pb.role, pb.task, pb.details, pb.format].filter(function(v) { return v.trim().length > 3; }).length;
+      const fullPrompt = `${pb.role ? pb.role + '. ' : ''}${pb.task ? pb.task + '. ' : ''}${pb.details ? pb.details + '. ' : ''}${pb.format ? 'Формат: ' + pb.format + '.' : ''}`.trim();
+      const hasDigitsWarning = /\d{7,}|пароль|адрес/i.test(fullPrompt);
+
+      let strengthLabel = `Слабкий (додай деталі)`;
+      let strengthClass = `status-warn`;
+      if (filledCount === 4) {
+        strengthLabel = `Сильний промт (4/4 частини)!`;
+        strengthClass = `status-ok`;
+      } else if (filledCount >= 2) {
+        strengthLabel = `Середній (${filledCount}/4 частини)`;
+      }
+
+      const ethicsCases = [
+        {
+          id: `e1`,
+          text: `Учень попросив ШІ пояснити правило про дієслово з 2 прикладами й переказав своїми словами.`,
+          correct: `ok`,
+          explain: `Це чесне навчання (академічна доброчесність): учень зрозумів тему, а не списав.`
+        },
+        {
+          id: `e2`,
+          text: `Учениця скопіювала готовий реферат від чат-бота і не змінила жодного слова, не сказавши вчителю.`,
+          correct: `bad`,
+          explain: `Це списування і порушення доброчесності. До того ж ШІ міг вигадати факти!`
+        },
+        {
+          id: `e3`,
+          text: `Хлопчик написав у промт свою домашню адресу, номер школи й телефон, щоб бот склав розпорядок дня.`,
+          correct: `bad`,
+          explain: `Небезпечно! Особисті дані не можна передавати чат-ботам в Інтернеті.`
+        },
+        {
+          id: `e4`,
+          text: `Перед контрольною школярка попросила ШІ згенерувати 5 тренувальних питань, відповіла сама і звірила з підручником.`,
+          correct: `ok`,
+          explain: `Ідеальний спосіб підготовки до контрольної з дотриманням перевірки фактів!`
+        }
+      ];
+
+      let ethicsHtml = ``;
+      ethicsCases.forEach(function(item) {
+        const ans = appState.ethicsAnswers[item.id];
+        const isRight = ans === item.correct;
+        ethicsHtml += `
+          <div class="term-item" style="display:grid;gap:8px;">
+            <div>${item.text}</div>
+            <div class="chip-row">
+              <button type="button" class="chip ${ans === 'ok' ? 'selected' : ''}" onclick="checkEthicsCase('${item.id}', 'ok')">Чесно і безпечно</button>
+              <button type="button" class="chip ${ans === 'bad' ? 'selected' : ''}" onclick="checkEthicsCase('${item.id}', 'bad')">Порушення / Небезпечно</button>
+            </div>
+            ${ans ? `<span class="status-pill ${isRight ? 'status-ok' : 'status-bad'}">${isRight ? 'Вірно! ' : 'Зверни увагу: '}${item.explain}</span>` : ``}
+          </div>
+        `;
+      });
+
+      return `
+        <section class="lab-card" aria-label="Інтерактивна лабораторія Розділу 6">
+          <div class="lab-header">
+            <div>
+              <span class="badge badge-sky">Практикум до Тем 30–33</span>
+              <h3 class="lab-title" style="margin-top:0.35rem;">Конструктор <em>сильного промту</em> та етика ШІ</h3>
+            </div>
+          </div>
+
+          <div class="lab-split">
+            <div class="lab-well">
+              <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;">
+                <strong>1. Збери промт із 4 частин:</strong>
+                <span class="status-pill ${strengthClass}">${strengthLabel}</span>
+              </div>
+              <div class="chip-row">
+                <button type="button" class="btn btn-soft btn-sm" onclick="applyPromptPreset('study')">Пресет: Навчання</button>
+                <button type="button" class="btn btn-soft btn-sm" onclick="applyPromptPreset('image')">Пресет: Картинка</button>
+              </div>
+              <div class="field-group">
+                <label class="field-label" for="pb-role">1. Роль (хто відповідає)</label>
+                <input id="pb-role" class="input-pill" value="${pb.role}" oninput="updatePromptField('role', this.value)">
+              </div>
+              <div class="field-group">
+                <label class="field-label" for="pb-task">2. Завдання (що зробити)</label>
+                <input id="pb-task" class="input-pill" value="${pb.task}" oninput="updatePromptField('task', this.value)">
+              </div>
+              <div class="field-group">
+                <label class="field-label" for="pb-details">3. Деталі (клас, стиль, акценти)</label>
+                <input id="pb-details" class="input-pill" value="${pb.details}" oninput="updatePromptField('details', this.value)">
+              </div>
+              <div class="field-group">
+                <label class="field-label" for="pb-format">4. Формат (список, 3 речення, таблиця)</label>
+                <input id="pb-format" class="input-pill" value="${pb.format}" oninput="updatePromptField('format', this.value)">
+              </div>
+
+              ${hasDigitsWarning ? `
+                <div class="status-pill status-bad">Увага! Схоже, у промті є особисті дані (телефон, адреса або пароль) — не надсилай їх у ШІ!</div>
+              ` : ``}
+              <div class="tip-box">
+                <i data-lucide="sparkles" aria-hidden="true" style="width:18px;height:18px;flex-shrink:0;"></i>
+                <div><strong>Готовий промт:</strong> ${fullPrompt || 'Заповни поля вище…'}</div>
+              </div>
+            </div>
+
+            <div class="lab-well">
+              <strong>2. Оціни ситуації за правилами доброчесності та безпеки:</strong>
+              ${ethicsHtml}
+            </div>
+          </div>
+        </section>
+      `;
+    }
+
+    function renderLabForChapter(chId) {
+      if (chId === 1) return renderChapter1Lab();
+      if (chId === 2) return renderChapter2Lab();
+      if (chId === 3) return renderChapter3Lab();
+      if (chId === 4) return renderChapter4Lab();
+      if (chId === 5) return renderChapter5Lab();
+      return renderChapter6Lab();
+    }
+
+    // =========================================================================
+    // MAIN WORKSPACE RENDER
+    // =========================================================================
+    function renderWorkspace() {
+      const ws = document.getElementById('main-workspace');
+      const searchMsg = document.getElementById('search-status-msg');
+      const clearBtn = document.getElementById('clear-search-btn');
+      if (!ws) return;
+
+      const q = appState.searchQuery.trim().toLowerCase();
+      if (clearBtn) clearBtn.style.display = q ? 'inline-flex' : 'none';
+
+      // Global search mode across all 34 topics
+      if (q) {
+        const matches = [];
+        CHAPTERS.forEach(function(ch) {
+          ch.topics.forEach(function(t) {
+            const hay = (t.title + ' ' + t.summary + ' ' + t.terms.map(function(x) { return x.term + ' ' + x.def; }).join(' ')).toLowerCase();
+            if (hay.indexOf(q) !== -1) {
+              matches.push({ chapter: ch, topic: t });
+            }
+          });
+        });
+
+        if (searchMsg) {
+          searchMsg.textContent = `Знайдено тем за запитом «${appState.searchQuery}»: ${matches.length}`;
+        }
+
+        if (matches.length === 0) {
+          ws.innerHTML = `
+            <div class="empty-state">
+              <h2 style="margin:0;">За запитом «${appState.searchQuery}» тем не знайдено</h2>
+              <p style="margin:0;color:var(--on-surface-variant);">Спробуй інше ключове слово (наприклад: <em>процесор, браузер, таблиця, цикл, вектор, промт</em>) або очисти пошук.</p>
+              <button type="button" class="btn btn-primary" onclick="clearSearch()">Повернутися до розділів</button>
+            </div>
+          `;
+          refreshIcons();
+          return;
+        }
+
+        let cardsHtml = ``;
+        matches.forEach(function(m) {
+          cardsHtml += renderTopicCard(m.topic);
+        });
+        ws.innerHTML = `<div class="topics-stack">${cardsHtml}</div>`;
+        refreshIcons();
+        return;
+      }
+
+      if (searchMsg) searchMsg.textContent = ``;
+
+      const ch = CHAPTERS.find(function(c) { return c.id === appState.activeChapter; }) || CHAPTERS[0];
+      const viewMode = appState.chapterViewMode;
+
+      const pillsHtml = ch.topics.map(function(t) {
+        const isDone = appState.completedTopics.indexOf(t.num) !== -1;
+        return `
+          <button
+            type="button"
+            class="topic-pill ${isDone ? 'done' : ''}"
+            onclick="jumpToTopic(${t.num})"
+          >
+            ${isDone ? '<i data-lucide="check" aria-hidden="true" style="width:14px;height:14px;"></i>' : ''}
+            Тема ${t.num}
+          </button>
+        `;
+      }).join(``);
+
+      let contentHtml = ``;
+      if (viewMode === 'theory') {
+        const topicsHtml = ch.topics.map(renderTopicCard).join(``);
+        contentHtml = `
+          <div class="topic-pills-bar" aria-label="Швидкий перехід до теми">
+            <span style="font-size:0.86rem;font-weight:700;color:var(--on-surface-variant);">Швидкий перехід:</span>
+            ${pillsHtml}
+          </div>
+          <div class="topics-stack">${topicsHtml}</div>
+          <div style="display:flex;justify-content:flex-start;margin-top:var(--space-md);">
+            <button type="button" class="btn btn-primary" onclick="setViewMode('practice')">
+              <i data-lucide="gamepad-2" aria-hidden="true" style="width:18px;height:18px;"></i>
+              Перейти до інтерактивних вправ і тесту розділу ${ch.id}
+            </button>
+          </div>
+        `;
+      } else {
+        contentHtml = `
+          <div class="practice-grid">
+            ${renderLabForChapter(ch.id)}
+            ${renderChapterQuiz(ch)}
+          </div>
+        `;
+      }
+
+      ws.innerHTML = `
+        <div class="topics-stack">
+          <div class="chapter-banner">
+            <div>
+              <span class="badge badge-grape">${ch.range}</span>
+              <h2>${ch.title}</h2>
+              <p>${ch.description}</p>
+            </div>
+            <div class="chapter-controls">
+              <div class="segmented" role="tablist" aria-label="Режим розділу">
+                <button
+                  type="button"
+                  role="tab"
+                  aria-selected="${viewMode === 'theory' ? 'true' : 'false'}"
+                  class="seg-btn ${viewMode === 'theory' ? 'active' : ''}"
+                  onclick="setViewMode('theory')"
+                >
+                  <i data-lucide="book-text" aria-hidden="true" style="width:16px;height:16px;"></i>
+                  Теорія (${ch.topics.length})
+                </button>
+                <button
+                  type="button"
+                  role="tab"
+                  aria-selected="${viewMode === 'practice' ? 'true' : 'false'}"
+                  class="seg-btn ${viewMode === 'practice' ? 'active' : ''}"
+                  onclick="setViewMode('practice')"
+                >
+                  <i data-lucide="sparkles" aria-hidden="true" style="width:16px;height:16px;"></i>
+                  Практикум і тест
+                </button>
+              </div>
+            </div>
+          </div>
+          ${contentHtml}
+        </div>
+      `;
+      refreshIcons();
+    }
+
+    // =========================================================================
+    // EVENT HANDLERS (Hoisted function declarations for inline onclick/oninput)
+    // =========================================================================
+    function selectChapter(id) {
+      appState.searchQuery = '';
+      const searchEl = document.getElementById('global-search');
+      if (searchEl) searchEl.value = '';
+      appState.activeChapter = id;
+      renderChapterTabs();
+      renderWorkspace();
+      persistState();
+    }
+
+    function setViewMode(mode) {
+      appState.chapterViewMode = mode;
+      renderWorkspace();
+      persistState();
+    }
+
+    function jumpToTopic(topicNum) {
+      if (appState.chapterViewMode !== 'theory') {
+        appState.chapterViewMode = 'theory';
+        renderWorkspace();
+      }
+      const target = document.getElementById(`topic-card-${topicNum}`);
+      if (target) {
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    }
+
+    function toggleTopicDone(topicNum) {
+      const idx = appState.completedTopics.indexOf(topicNum);
+      if (idx === -1) {
+        appState.completedTopics.push(topicNum);
+      } else {
+        appState.completedTopics.splice(idx, 1);
+      }
+      updateMetrics();
+      renderChapterTabs();
+      renderWorkspace();
+      persistState();
+    }
+
+    function handleSearchInput(val) {
+      appState.searchQuery = val;
+      renderChapterTabs();
+      renderWorkspace();
+    }
+
+    function clearSearch() {
+      appState.searchQuery = '';
+      const searchEl = document.getElementById('global-search');
+      if (searchEl) searchEl.value = '';
+      renderChapterTabs();
+      renderWorkspace();
+    }
+
+    function answerQuiz(chId, qIdx, optIdx) {
+      appState.quizAnswers[`ch${chId}_q${qIdx}`] = optIdx;
+      updateMetrics();
+      renderWorkspace();
+      persistState();
+    }
+
+    function resetChapterQuiz(chId) {
+      for (let i = 0; i < 5; i++) {
+        delete appState.quizAnswers[`ch${chId}_q${i}`];
+      }
+      updateMetrics();
+      renderWorkspace();
+      persistState();
+    }
+
+    // Lab 1 handlers
+    function setFlashGb(size) {
+      appState.flashDriveGb = size;
+      renderWorkspace();
+      persistState();
+    }
+    function sortDevice(name, group) {
+      appState.deviceSortAnswers[name] = group;
+      renderWorkspace();
+      persistState();
+    }
+
+    // Lab 2 handlers
+    function updateSearchBuilder(field, val) {
+      appState.searchBuilder[field] = val;
+      const sb = appState.searchBuilder;
+      const parts = [];
+      if (sb.kw.trim()) parts.push(sb.kw.trim());
+      if (sb.exact.trim()) parts.push(`"${sb.exact.trim()}"`);
+      if (sb.site.trim()) parts.push(`site:${sb.site.trim()}`);
+      if (sb.file) parts.push(`filetype:${sb.file}`);
+      if (sb.exclude.trim()) parts.push(`-${sb.exclude.trim().split(' ')[0]}`);
+      const out = document.querySelector('[data-built-query]');
+      if (out) out.textContent = parts.join(' ') || `введіть хоча б один параметр…`;
+      persistState();
+    }
+    function checkFakeCase(id, choice) {
+      appState.fakeCheckAnswers[id] = choice;
+      renderWorkspace();
+      persistState();
+    }
+
+    // Lab 3 handlers
+    function toggleTypingFix(id) {
+      appState.typingFixRevealed[id] = !appState.typingFixRevealed[id];
+      renderWorkspace();
+      persistState();
+    }
+    function setDocPreview(key, val) {
+      appState.docPreview[key] = val;
+      renderWorkspace();
+      persistState();
+    }
+
+    // Lab 4 handlers
+    function addScratchBlock(cmd) {
+      if (appState.scratchQueue.length >= 16) return;
+      appState.scratchQueue.push(cmd);
+      renderWorkspace();
+      persistState();
+    }
+    function applyScratchPreset(preset) {
+      if (preset === 'square') {
+        appState.scratchQueue = [`move`, `turn`, `move`, `turn`, `move`, `turn`, `move`, `turn`];
+      } else {
+        appState.scratchQueue = [`move`, `turn45`, `move`, `turn45`, `move`, `turn45`, `move`, `turn45`, `move`, `turn45`, `move`, `turn45`, `move`, `turn45`, `move`, `turn45`];
+      }
+      renderWorkspace();
+      persistState();
+    }
+    function clearScratchQueue() {
+      appState.scratchQueue = [];
+      renderWorkspace();
+      persistState();
+    }
+    function setScratchAge(val) {
+      appState.scratchAgeInput = Number(val) || 0;
+      renderWorkspace();
+      persistState();
+    }
+
+    // Lab 5 handlers
+    function setRasterZoom(val) {
+      appState.rasterZoom = Number(val) || 100;
+      renderWorkspace();
+      persistState();
+    }
+    function bringShapeFront(key) {
+      const filtered = appState.layerOrder.filter(function(k) { return k !== key; });
+      filtered.push(key);
+      appState.layerOrder = filtered;
+      renderWorkspace();
+      persistState();
+    }
+
+    // Lab 6 handlers
+    function updatePromptField(field, val) {
+      appState.promptBuilder[field] = val;
+      renderWorkspace();
+      persistState();
+    }
+    function applyPromptPreset(type) {
+      if (type === 'study') {
+        appState.promptBuilder = {
+          role: `Досвідчений учитель інформатики`,
+          task: `Поясни простими словами, що таке алгоритм`,
+          details: `Для учня 5 класу, з прикладом із щоденного життя`,
+          format: `3 короткі пункти списком`
+        };
+      } else {
+        appState.promptBuilder = {
+          role: `Цифровий ілюстратор`,
+          task: `Намалюй рудого кота-космонавта на поверхні Місяця`,
+          details: `Синьо-фіолетове зоряне небо, скафандр, яскраві фарби`,
+          format: `У стилі яскравого 3D-мультфільму`
+        };
+      }
+      renderWorkspace();
+      persistState();
+    }
+    function checkEthicsCase(id, choice) {
+      appState.ethicsAnswers[id] = choice;
+      renderWorkspace();
+      persistState();
+    }
+
+    // Inline two-step reset (no confirm())
+    function resetProgress(btn) {
+      if (btn.dataset.armed !== 'true') {
+        btn.dataset.armed = 'true';
+        btn.textContent = `Натисни ще раз для скидання`;
+        return;
+      }
+      btn.dataset.armed = 'false';
+      appState.completedTopics = [];
+      appState.quizAnswers = {};
+      appState.deviceSortAnswers = {};
+      appState.fakeCheckAnswers = {};
+      appState.typingFixRevealed = {};
+      appState.ethicsAnswers = {};
+      btn.innerHTML = `<i data-lucide="rotate-ccw" aria-hidden="true" style="width:16px;height:16px;"></i> Скинути прогрес`;
+      updateMetrics();
+      renderChapterTabs();
+      renderWorkspace();
+      persistState();
+    }
+
+    function exportProgress() {
+      const doneList = appState.completedTopics.slice().sort(function(a, b) { return a - b; });
+      let correctCount = 0;
+      CHAPTERS.forEach(function(ch) {
+        ch.quiz.forEach(function(item, idx) {
+          if (appState.quizAnswers[`ch${ch.id}_q${idx}`] === item.correct) correctCount++;
+        });
+      });
+      const text = [
+        `ІНФОРМАТИКА 5 КЛАС — МІЙ ПРОГРЕС ЗА ПІДРУЧНИКОМ І. В. ТРІЩУК`,
+        `================================================================`,
+        `Вивчено тем: ${doneList.length} з 34 (${doneList.length ? 'Теми: ' + doneList.join(', ') : 'поки немає'})`,
+        `Правильних відповідей у тестах: ${correctCount} з 30`,
+        ``,
+        `Складний промт із практикуму Розділу 6:`,
+        `${appState.promptBuilder.role}. ${appState.promptBuilder.task}. ${appState.promptBuilder.details}. Формат: ${appState.promptBuilder.format}.`
+      ].join('\n');
+
+      if (window.notebookAppApi && typeof window.notebookAppApi.triggerFileDownload === 'function') {
+        window.notebookAppApi.triggerFileDownload({
+          content: text,
+          contentType: 'text/plain',
+          encoding: 'UTF-8',
+          filename: 'informatyka_5klas_progres.txt'
+        });
+      }
+    }
+
+    // =========================================================================
+    // INITIALIZATION
+    // =========================================================================
+    async function initApp() {
+      if (window.notebookAppApi && typeof window.notebookAppApi.getAppState === 'function') {
+        try {
+          const saved = await window.notebookAppApi.getAppState();
+          sanitizeState(saved);
+        } catch (err) {
+          // Proceed with fresh default state
+        }
+      }
+      updateMetrics();
+      renderChapterTabs();
+      renderWorkspace();
+
+      if (window.notebookAppApi && typeof window.notebookAppApi.notifyAppReady === 'function') {
+        window.notebookAppApi.notifyAppReady();
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', initApp);
+  </script>
+</body>
+</html>
